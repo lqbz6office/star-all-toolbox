@@ -12,6 +12,8 @@ import json
 import os
 import re
 import sys
+import time
+import traceback
 
 from PyQt5.QtCore import QProcess, QProcessEnvironment, QSize, Qt, QTimer
 from PyQt5.QtGui import QColor, QFont, QFontMetrics, QIcon, QPainter, QPixmap
@@ -25,7 +27,6 @@ import glass
 import devpage
 from core import about as about_mod
 from core import resources, runner, staros
-from core import updater
 from core.errors import StarError
 from glass import (ACCENT, DANGER, GlassPanel, OK, TEXT, TEXT_DIM, WARN,
                    apply_acrylic, apply_round_corners, enable_shadow)
@@ -35,9 +36,140 @@ ROOT = os.path.dirname(HERE)
 BIN = os.path.join(ROOT, "StarATB", "bin")
 ROUTES = os.path.join(HERE, "routes.json")
 
+# ---- 启动留痕:pythonw 没有控制台,出错必须落盘 + 弹框,否则就是"一闪而过"
+LOGDIR = os.path.join(ROOT, "logs")
+BOOTLOG = os.path.join(LOGDIR, "boot.log")
+FLAG = os.path.join(LOGDIR, "started.flag")
+RUNBAT = os.path.join(LOGDIR, "_run.bat")
+GEOM = os.path.join(ROOT, "ui.json")
+ADMIN = False
+_T0 = time.perf_counter()   # 本模块开始导入的时刻,用来算启动耗时
+
+
+def _log(msg):
+    try:
+        if not os.path.isdir(LOGDIR):
+            os.makedirs(LOGDIR)
+        with open(BOOTLOG, "a", encoding="utf-8") as f:
+            f.write("[%s.%03d] %s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"),
+                                        int(time.time() * 1000) % 1000, msg))
+    except Exception:
+        pass
+
+
+def _die(title, why, tb_text=""):
+    """画出错误框并退出 —— 保证不会静默消失。"""
+    _log("DIE %s | %s\n%s" % (title, why, tb_text))
+    try:
+        box = QMessageBox()
+        box.setWindowTitle("Star All Tool Box · 启动失败")
+        box.setText(title)
+        box.setInformativeText("原因:%s\n\n日志:%s" % (why, BOOTLOG))
+        if tb_text:
+            box.setDetailedText(tb_text[-2000:])
+        box.setIcon(QMessageBox.Critical)
+        box.setStyleSheet("QMessageBox{background:#1B1E25;} QLabel{color:#E9EDF5;font-size:12px;}"
+                          "QPushButton{background:rgba(255,255,255,0.10);color:#E9EDF5;border:none;"
+                          "border-radius:8px;padding:6px 16px;}")
+        box.exec_()
+    except Exception:
+        pass
+    sys.exit(9)
+
+
 DANGER_WORDS = ("root", "刷", "edl", "9008", "抹", "格式化", "清空", "解bl",
                 "twrp", "recovery", "降级", "wipe", "erase", "patch")
 ANSI = re.compile(r"\x1b\[[0-9;?]*[a-zA-Z]|\x1b\][^\x07]*\x07")
+
+# ---------------------------------------------------------------- 中文名表
+# 引擎的菜单名是 A11 / appset / backup_9008 这种 bat 文件名,条目来源是 xxx.bat。
+# 直接摊给用户就是"谁看得懂",这里一律换成人话:中文标题 + 一句话说明。
+MENU_CN = {
+    "main.json": ("主菜单", "一键 Root、进 RTOS、开 cmd、常用功能"),
+    "commonly.json": ("常用功能", "一键 OTA、刷 TWRP、备份恢复、投屏"),
+    "settings.json": ("工具箱设置", "快速启动、版本信息、重装驱动、强制更新"),
+    "root.json": ("一键 Root(按机型)", "选型号后走完整 Root 流程"),
+    "root-SDK25.json": ("Root · 老系统(SDK25)", "BOOT 方案或 Recovery 方案"),
+    "scripttool.json": ("脚本工具", "型号对照表、导入 root 文件、读手表信息"),
+    "scripttool-patchboot.json": ("修补 boot", "SDK27 / SDK25 / 狐狸面具"),
+    "root_setting_mode.json": ("Root 后预装优化", "启用或跳过预装优化"),
+    "root_setting_i3.json": ("Root 桌面版本", "130510 / 146000(Z12) / 123910"),
+    "root_setting_lsp.json": ("Root 后预装框架", "预装 XP 框架或 LSP 框架"),
+    "root_setting_root_manage.json": ("Root 面具类型", "普通面具或狐狸面具"),
+    "root_setting_rootpro.json": ("Root 预装优化 · 增强", "启用或跳过"),
+    "ota.json": ("离线 OTA 升级(按机型)", "选型号后拉 OTA 包升级"),
+    "ota_mode.json": ("OTA 升级方式", "云服务拉取 / 手动选包 / 9008 进 QMMI"),
+    "pashtwrp.json": ("推送 TWRP(按机型)", "把 TWRP 推到手表"),
+    "rebtwrp.json": ("重启到 TWRP(按机型)", "重启并进入 TWRP"),
+    "rebootpro.json": ("重启 / 进特殊模式", "系统、fastboot、recovery、9008、临时 TWRP"),
+    "rebootpro_edl.json": ("进 9008(EDL)方式", "按版本高低选引导方式"),
+    "qmmi.json": ("进 QMMI(按机型)", "进高通 QMMI 模式"),
+    "super_rec_mode.json": ("超级恢复方式", "自动下载超级恢复 / 手动选包"),
+    "miscre.json": ("Recovery 工具(按机型)", "按型号选 recovery 相关操作"),
+    "nd03ver.json": ("ND03 固件版本", "281 / 302 Root 固件"),
+    "A11.json": ("Android 11 机型选择", "Z10 / Z11(含少年版)"),
+    "menu.json": ("机型选择", "按型号进入下一步"),
+    "backup.json": ("备份与恢复", "相册、9008 分区、adb 分区"),
+    "backup_9008.json": ("9008 分区备份(按机型)", "选型号后备份/恢复分区"),
+    "backup_DCIM.json": ("相册备份选项", "启用或跳过备份相册"),
+    "appset.json": ("应用管理", "安装、卸载、设置微信 QQ 自启"),
+    "userinstapp.json": ("安装 APK", "单个 / 多个 / 整个文件夹"),
+    "unapp.json": ("卸载应用", "查看包名后卸载"),
+    "magisk.json": ("Magisk 模块管理", "刷入、列出、卸载模块"),
+    "setmagisk-in.json": ("安装 Magisk 模块", "官方接口 / sh 模拟 / 强制安装"),
+    "setmagisk-un.json": ("卸载 Magisk 模块", "标记卸载或直接删目录"),
+    "modulestore.json": ("模块商店", "列出、搜索、关于"),
+    "modulestore-list.json": ("模块商店 · 模块列表", "全部 / 开机动画 / 表盘 / 工具 / 字体"),
+    "modulestore-search.json": ("模块商店 · 搜索", "按关键字搜模块"),
+    "modulestore-about.json": ("模块商店 · 关于", "更新日志、捐赠、鸣谢"),
+    "modulestore-other.json": ("模块商店 · 其他", "公告、帮助、作者排行"),
+    "scrcpy-ui.json": ("投屏参数(scrcpy)", "控制、息屏、录音、录制等开关"),
+    "wifiadb.json": ("无线 ADB", "连接 / 配对 / 有线转无线 / 关闭"),
+    "debug.json": ("调试选项", "色卡、使用状态"),
+    "rtos.json": ("RTOS 专区", "USB 当 U 盘、装应用、导出应用"),
+    "rtos-at_tool.json": ("RTOS · AT 指令", "公用指令 / 私有指令"),
+    "rtos-at_public.json": ("RTOS · 通用 AT 指令", "运营商、信号、附着状态"),
+    "rtos-at_private.json": ("RTOS · 小天才私有 AT", "绑定号、机型、版本、电量"),
+    "cloud.json": ("云端资源下载", "各机型 root 包、TWRP、驱动"),
+    "isv3.json": ("确认(是/否)", "让脚本自己问的确认"),
+    "yesno.json": ("确认(是/否)", "让脚本自己问的确认"),
+    "run_cmd.json": ("确认(是/否)", "让脚本自己问的确认"),
+}
+
+# 功能库分组:顺序即展示顺序,没列进去的归到「其他」
+LIB_GROUPS = [
+    ("一键与常用", ["main.json", "commonly.json", "settings.json"]),
+    ("Root 与权限", ["root.json", "root-SDK25.json", "scripttool.json",
+                 "scripttool-patchboot.json", "root_setting_mode.json",
+                 "root_setting_i3.json", "root_setting_lsp.json",
+                 "root_setting_root_manage.json", "root_setting_rootpro.json"]),
+    ("刷机 · 恢复", ["ota.json", "ota_mode.json", "pashtwrp.json", "rebtwrp.json",
+                 "rebootpro.json", "rebootpro_edl.json", "qmmi.json",
+                 "super_rec_mode.json", "miscre.json", "nd03ver.json",
+                 "A11.json", "menu.json"]),
+    ("备份", ["backup.json", "backup_9008.json", "backup_DCIM.json"]),
+    ("应用", ["appset.json", "userinstapp.json", "unapp.json"]),
+    ("模块", ["magisk.json", "setmagisk-in.json", "setmagisk-un.json",
+            "modulestore.json", "modulestore-list.json", "modulestore-search.json",
+            "modulestore-about.json", "modulestore-other.json"]),
+    ("投屏 · 调试", ["scrcpy-ui.json", "wifiadb.json", "debug.json"]),
+    ("RTOS 专区", ["rtos.json", "rtos-at_tool.json", "rtos-at_public.json",
+                "rtos-at_private.json"]),
+    ("云端资源", ["cloud.json"]),
+    ("确认类", ["isv3.json", "yesno.json", "run_cmd.json"]),
+]
+
+# 云端资源的中文名(引擎清单里只有文件名)
+RES_CN = {
+    "userdata": ("系统分区镜像 userdata", "Root 必刷的精简 userdata 分区"),
+    "systemui": ("系统 UI 补丁", "改状态栏 / 界面的 systemui 补丁"),
+    "xtcpatch": ("核心破解补丁", "去掉签名校验的核心补丁"),
+    "apks": ("预装 APK 合集", "Root 后一并装进去的应用"),
+    "rootproapks": ("Root 增强 APK", "Root 后常用的工具集"),
+    "twrp": ("TWRP 超级恢复", "刷机 / 救砖用的 recovery"),
+    "drivers": ("Windows 驱动包", "9008 和 adb 驱动,电脑认不到设备先装它"),
+    "xp": ("XP / LSP 框架组件", "XP 框架运行需要的文件"),
+}
 
 STYLE = """
 QLabel { color: %(text)s; }
@@ -149,7 +281,24 @@ class MainWindow(QWidget):
         self.setWindowTitle("Star All Tool Box")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
-        self.resize(1120, 720)
+        # 窗口别写死 1120×720:1366×768 的笔记本上会顶满屏幕,而且缩放后看着"巨大"。
+        # 取屏幕可用区的 86%,再压到 1000×660 以内,居中。
+        scr = QApplication.desktop().availableGeometry()
+        w = max(880, min(1000, int(scr.width() * 0.86)))
+        h = max(600, min(660, int(scr.height() * 0.86)))
+        try:                                   # 记住上次窗口大小
+            g = json.load(open(GEOM, encoding="utf-8"))
+            w = max(820, min(int(g.get("w") or w), scr.width() - 40))
+            h = max(540, min(int(g.get("h") or h), scr.height() - 40))
+        except Exception:
+            pass
+        self.resize(w, h)
+        self.move(scr.x() + (scr.width() - w) // 2, scr.y() + (scr.height() - h) // 2)
+        self.setMinimumSize(820, 540)
+        self.setMouseTracking(True)
+        self._r_edge = None
+        self._r_geo = None
+        self._r_pos = None
 
         self._drag = None
         self._proc = None
@@ -168,7 +317,42 @@ class MainWindow(QWidget):
         self._cur_menu = "main.json"
         self.data = json.load(open(ROUTES, encoding="utf-8"))
         self._build()
+        if not ADMIN:
+            self._limited()
         QTimer.singleShot(60, self._native)
+
+    # -- 受限模式提示条(非管理员)
+    def _limited(self):
+        bar = QWidget()
+        bar.setStyleSheet("background: rgba(255,176,64,0.16); border-radius:8px;")
+        row = QHBoxLayout(bar)
+        row.setContentsMargins(12, 7, 8, 7)
+        row.setSpacing(10)
+        t = QLabel("受限模式:当前没有管理员权限,刷写 / 驱动 / 端口占用类功能会失败")
+        t.setStyleSheet("color:%s; font-size:11px;" % WARN)
+        row.addWidget(t, 1)
+        btn = QPushButton("以管理员身份重启")
+        btn.setCursor(Qt.PointingHandCursor)
+        btn.setFixedHeight(24)
+        btn.setStyleSheet("QPushButton{background:rgba(255,255,255,0.14);color:#E9EDF5;"
+                          "border:none;border-radius:7px;padding:0 12px;font-size:11px;}"
+                          "QPushButton:hover{background:rgba(255,255,255,0.24);}")
+        btn.clicked.connect(self._elevate_restart)
+        row.addWidget(btn)
+        self.mid.insertWidget(self.mid.indexOf(self.title) + 2, bar)
+        self._log("⚠ 受限模式:非管理员。需要刷机 / Root / 提权操作时,请点上面的「以管理员身份重启」。")
+
+    def _elevate_restart(self):
+        try:
+            import ctypes
+            ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", sys.executable, '"%s"' % os.path.join(HERE, "main.py"),
+                ROOT, 1)
+        except Exception as e:
+            self.show_error(StarError("E0002", str(e)))
+            return
+        self.close()
+        QTimer.singleShot(200, QApplication.instance().quit)
 
     # -- 原生玻璃
     def _native(self):
@@ -303,6 +487,7 @@ class MainWindow(QWidget):
         self.dev_built = False
         self.stack.addWidget(self.dev_host)
         mid.addWidget(self.stack, 1)
+        self.mid = mid
         body.addLayout(mid, 1)
 
         # 右栏:日志
@@ -329,7 +514,7 @@ class MainWindow(QWidget):
 
         self.stdin = QLineEdit()
         self.stdin.setPlaceholderText("输入给命令的内容,回车发送…")
-        self.stdin.setFixedWidth(392)
+        self.stdin.setFixedWidth(330)
         self.stdin.returnPressed.connect(self._send_stdin)
         self.stdin.setEnabled(False)
         self.stdin.setStyleSheet("""
@@ -342,7 +527,7 @@ class MainWindow(QWidget):
 
         self.log = QPlainTextEdit()
         self.log.setReadOnly(True)
-        self.log.setFixedWidth(392)
+        self.log.setFixedWidth(330)
         f = QFont("Consolas", 9)
         self.log.setFont(f)
         self.log.setStyleSheet("QPlainTextEdit{background: rgba(0,0,0,0.34);"
@@ -367,7 +552,11 @@ class MainWindow(QWidget):
             b.clicked.connect(lambda _=False, k=key: self._on_section(k))
             self.nav_box.addWidget(b)
             self.nav_buttons.append((key, b))
-        self._on_section("home")
+        # 首屏渲染放到窗口画出来之后:22 张卡片建一次要 0.7s,
+        # 放在这之前会把"窗口出现"整体拖慢(实测 3.3s → 1.4s)。
+        self.title.setText("Star All Tool Box")
+        self.sub.setText("正在加载…")
+        QTimer.singleShot(30, lambda: self._on_section("home"))
 
     def _on_section(self, key):
         self._mode = key
@@ -408,8 +597,11 @@ class MainWindow(QWidget):
         self._add_card("安装最新 Star OS(在线包 400KB)",
                        "手表自己联网补资源,网络好时用这个更快",
                        False, lambda: self._install_staros(True))
-        self._add_card("检查更新 / 版本信息",
-                       "和模块同一套 update.json,正式 + 内测双通道取高者",
+        self._add_card("检查工具更新(StarATB 本体)",
+                       "查这个工具箱自己的新版本 —— 和手表模块的版本是两回事",
+                       False, self._check_app_update)
+        self._add_card("查看 Star OS 模块版本",
+                       "看手表模块线上最新版(3.0.4 这种),和模块里那套 update.json 一致",
                        False, self._check_update)
         self._add_card("云端资源补全",
                        "%d 项未下载 —— bin 不全时在这里补齐" % miss,
@@ -439,36 +631,71 @@ class MainWindow(QWidget):
                            any(w in o["label"].lower() for w in DANGER_WORDS),
                            lambda oo=o, aa=act: self._click_item(oo, aa))
 
+    def _add_section(self, text):
+        l = QLabel(text)
+        l.setStyleSheet("color:%s; font-size:10px; letter-spacing:3px;"
+                        "padding:10px 4px 2px 4px;" % TEXT_DIM)
+        self.card_box.insertWidget(self.card_box.count() - 1, l)
+
     def _render_library(self):
         self._clear_cards()
         self.title.setText("功能库")
         total = sum(len([x for x in v if not x["hidden"]]) for v in self.data["menus"].values())
-        self.sub.setText("%d 个菜单 · %d 个可用条目" % (len(self.data["menus"]), total))
-        for name in sorted(self.data["menus"]):
-            opts = [x for x in self.data["menus"][name] if not x["hidden"]]
+        self.sub.setText("%d 个功能菜单 · 共 %d 个操作,按类别排好;点进去就是具体命令"
+                         % (len(self.data["menus"]), total))
+        done = set()
+
+        def one(name):
+            opts = [x for x in self.data["menus"].get(name, []) if not x["hidden"]]
             if not opts:
+                return
+            title, desc = MENU_CN.get(name, (name.replace(".json", ""), "共 %d 项" % len(opts)))
+            self._add_card(title, "%s · %d 项" % (desc, len(opts)), False,
+                           lambda n=name: self.goto_menu(n))
+            done.add(name)
+
+        for gname, names in LIB_GROUPS:
+            hit = [n for n in names if n in self.data["menus"]]
+            if not hit:
                 continue
-            src = self.data["sources"].get(name, "")
-            self._add_card("%s  (%d 项)" % (name.replace(".json", ""), len(opts)),
-                           "来源 %s · 点开查看全部条目" % (src or "—"),
-                           False, lambda n=name: self.goto_menu(n))
+            self._add_section(gname)
+            for n in hit:
+                one(n)
+        rest = [n for n in sorted(self.data["menus"]) if n not in done]
+        if rest:
+            self._add_section("其他")
+            for n in rest:
+                one(n)
 
     def _render_resources(self):
         self._clear_cards()
         ok, part, miss = resources.summary()
         self.title.setText("云端资源")
-        self.sub.setText("%d 项就位 · %d 项未下载 · 来源 settings/link.txt(123pan WebDAV)" % (ok, miss))
-        for key, fname, name, grp, xdir, move in resources.CATALOG:
+        self.sub.setText("%d 项已就位 · %d 项还没下 · 从 cdn.alltoolbox.app 下载,"
+                         "自动放到引擎要的位置" % (ok, miss))
+        order = {"Root 组件": 0, "资源": 1}
+        last = None
+        for key, fname, name, grp, xdir, move in sorted(
+                resources.CATALOG, key=lambda c: (order.get(c[3], 9), c[0])):
             st, path, size = resources.local_state(key)
-            where = xdir or move or "bin/"
+            cn, why = RES_CN.get(key, (None, None))
+            if not cn:
+                if re.match(r"^[A-Z]{1,3}\d{2}[A-Z]?$", key):
+                    cn, why = "机型 %s 刷机包" % key, "这个型号的固件 / 资源包"
+                else:
+                    cn, why = name, "引擎要的资源文件"
+            g = {"Root 组件": "Root 必需组件",
+                 "资源": "刷机 · 机型资源"}.get(grp, grp or "其他")
+            if g != last:
+                self._add_section(g)
+                last = g
             if st == "ok":
-                mark, sub = "已就位", "%s · %.1f MB · %s" % (name, size / 1048576.0, where)
+                tail = "已就位 · %.1f MB" % (size / 1048576.0)
             elif st == "zip-only":
-                mark, sub = "待安装", "%s · 已下载 %s,点一下解压到 %s" % (name, fname, where)
+                tail = "已下载,点一下解压安装"
             else:
-                mark, sub = "未下载", "%s · %s → %s" % (name, fname, where)
-            title = "%s   %s" % (mark, grp)
-            self._add_card(title, sub, False,
+                tail = "未下载 · 点一下开始下载"
+            self._add_card(cn, "%s · %s" % (why, tail), False,
                            lambda k=key: self._download_res(k))
 
     def _download_res(self, key):
@@ -679,6 +906,23 @@ class MainWindow(QWidget):
     def _start_proc(self, line):
         if self._proc:
             self._kill()
+        # ⚠⚠ 不能把带引号的一整行直接丢给 cmd /c:QProcess 会再套一层引号,
+        #   cmd 对 \" 的解析历来错乱,实测报「文件名、目录名或卷标语法不正确」。
+        #   落一个临时 bat 再执行,彻底绕开转义。
+        try:
+            if not os.path.isdir(LOGDIR):
+                os.makedirs(LOGDIR)
+            with open(RUNBAT, "w", encoding="gbk", errors="replace",
+                      newline="\r\n") as f:
+                f.write("@echo off\n")
+                # ⚠⚠ 必须开延迟展开:引擎里 link.bat 用 !filename! 拼 URL,
+                #   原来是靠 双击运行.exe 那边开的;我们直接调子脚本时没开,
+                #   URL 就变成 https://cdn.alltoolbox.app/!userdata! ⇒ aria2 退出码 3(资源未找到)。
+                f.write("setlocal EnableDelayedExpansion\n")
+                f.write(line + "\n")
+        except Exception as e:
+            self._log("[E9000] 无法生成临时脚本:%s" % e)
+            return
         p = QProcess(self)
         p.setWorkingDirectory(BIN)
         env = QProcessEnvironment.systemEnvironment()
@@ -689,18 +933,28 @@ class MainWindow(QWidget):
         p.readyReadStandardOutput.connect(lambda: self._drain(p))
         p.finished.connect(lambda c, s: self._done(c))
         p.errorOccurred.connect(lambda e: self._log("[启动失败] %s" % e))
-        p.start("cmd", ["/c", line])
+        p.start("cmd", ["/c", RUNBAT])
         self._proc = p
         self.stop_btn.setEnabled(True)
         self.stdin.setEnabled(True)
         self.stdin.setFocus()
 
     def _drain(self, p):
+        # 引擎里 bat 是 GBK 编码、progress.exe 输出的是 UTF-8,同一股流里混着来。
+        # 按行各自判断编码,才不会出现「姝 e 漆锷犳祰」这种火星文。
         raw = bytes(p.readAllStandardOutput())
-        txt = raw.decode("gbk", "replace")
-        txt = ANSI.sub("", txt)
-        for ln in txt.splitlines():
-            ln = ln.rstrip()
+        for bline in re.split(rb"\r\n|\n|\r", raw):
+            if not bline.strip():
+                continue
+            for enc in ("utf-8", "gbk"):
+                try:
+                    ln = bline.decode(enc)
+                    break
+                except UnicodeDecodeError:
+                    ln = None
+            if ln is None:
+                ln = bline.decode("gbk", "replace")
+            ln = ANSI.sub("", ln).rstrip()
             if ln:
                 self._log(ln)
 
@@ -759,12 +1013,60 @@ class MainWindow(QWidget):
                                    "border:1px solid rgba(255,255,255,0.10);" % TEXT_DIM)
 
     # -- 更新 / 关于 / 错误
+    def _check_app_update(self):
+        """查 StarATB 自己 —— 以前这里查的是手表模块的 update.json,容易误会。"""
+        from threading import Thread
+        import version
+        self._log("正在检查 StarATB 本体更新(当前 v%s / vc%d)…"
+                  % (version.APP_VERSION, version.APP_VC))
+        local = (version.APP_VERSION, version.APP_VC)
+
+        def job():
+            try:
+                from core import updater
+                self._sig_info.emit({"_kind": "app", "online": updater.read_app_manifest(),
+                                     "local": local})
+            except StarError as e:
+                self._sig_err.emit(e)
+            except Exception as e:
+                self._sig_err.emit(StarError("E9000", str(e)))
+
+        Thread(target=job, daemon=True).start()
+
+    def _show_app_update(self, d):
+        import version
+        lv, lvc = d["local"]
+        on = d.get("online") or {}
+        ov = on.get("version")
+        ovc = int(on.get("versionCode") or 0)
+        self._log("本体:当前 v%s · 线上 %s" % (lv, ("v%s (vc%d)" % (ov, ovc)) if ov else "查不到"))
+        box = QMessageBox(self)
+        box.setWindowTitle("StarATB 本体更新")
+        if not ov:
+            box.setText("当前版本:v%s (vc%d)" % (lv, lvc))
+            box.setInformativeText("查不到线上清单 —— 仓库里还没有 version.json,或者网络不通。\n"
+                                   "这不影响使用。")
+        elif ovc > lvc:
+            box.setText("有新版本:v%s (vc%d) → v%s (vc%d)" % (lv, lvc, ov, ovc))
+            box.setInformativeText("%s\n\n下载:%s"
+                                   % (on.get("notes", ""),
+                                      on.get("url") or "仓库 Releases 页"))
+        else:
+            box.setText("已是最新:v%s (vc%d)" % (lv, lvc))
+            box.setInformativeText("线上也是 v%s (vc%d)。" % (ov, ovc))
+        box.setIcon(QMessageBox.Information)
+        box.setStyleSheet("QMessageBox{background:#1B1E25;} QLabel{color:#E9EDF5;font-size:12px;}"
+                          "QPushButton{background:rgba(255,255,255,0.10);color:#E9EDF5;border:none;"
+                          "border-radius:8px;padding:6px 16px;}")
+        box.exec_()
+
     def _check_update(self):
         from threading import Thread
         self._log("正在检查更新…")
 
         def job():
             try:
+                from core import updater   # 延迟导入:urllib+email 要 0.4s,启动时用不到
                 info = updater.latest(0)      # 0 = 永远取到线上最新,仅用于展示
                 self._sig_info.emit(info or {})
             except StarError as e:
@@ -775,6 +1077,8 @@ class MainWindow(QWidget):
         Thread(target=job, daemon=True).start()
 
     def _on_update_info(self, info):
+        if isinstance(info, dict) and info.get("_kind") == "app":
+            return self._show_app_update(info)
         if not info:
             self._log("[E5004] 已是最新版本")
             return
@@ -833,16 +1137,80 @@ class MainWindow(QWidget):
             pass
         super(MainWindow, self).closeEvent(e)
 
+    def _edge_at(self, pos):
+        e = 9
+        x, y = pos.x(), pos.y()
+        w, h = self.width(), self.height()
+        left, right, top, bot = x <= e, x >= w - e, y <= e, y >= h - e
+        if top and left:
+            return "tl"
+        if top and right:
+            return "tr"
+        if bot and left:
+            return "bl"
+        if bot and right:
+            return "br"
+        if left:
+            return "l"
+        if right:
+            return "r"
+        if top:
+            return "t"
+        if bot:
+            return "b"
+        return None
+
     def mousePressEvent(self, e):
-        if e.button() == Qt.LeftButton and e.pos().y() < 60:
+        if e.button() != Qt.LeftButton:
+            return
+        edge = self._edge_at(e.pos())
+        if edge:
+            self._r_edge = edge
+            self._r_geo = self.geometry()
+            self._r_pos = e.globalPos()
+            return
+        if e.pos().y() < 60:
             self._drag = e.globalPos() - self.frameGeometry().topLeft()
 
     def mouseMoveEvent(self, e):
+        if self._r_edge:
+            d = e.globalPos() - self._r_pos
+            g = self._r_geo
+            x, y, w, h = g.x(), g.y(), g.width(), g.height()
+            mw, mh = self.minimumWidth(), self.minimumHeight()
+            if "l" in self._r_edge:
+                nw = max(mw, w - d.x())
+                x, w = x + (w - nw), nw
+            if "r" in self._r_edge:
+                w = max(mw, w + d.x())
+            if "t" in self._r_edge:
+                nh = max(mh, h - d.y())
+                y, h = y + (h - nh), nh
+            if "b" in self._r_edge:
+                h = max(mh, h + d.y())
+            self.setGeometry(x, y, w, h)
+            return
         if self._drag and e.buttons() & Qt.LeftButton:
             self.move(e.globalPos() - self._drag)
+            return
+        cur = {"tl": Qt.SizeFDiagCursor, "br": Qt.SizeFDiagCursor,
+               "tr": Qt.SizeBDiagCursor, "bl": Qt.SizeBDiagCursor,
+               "l": Qt.SizeHorCursor, "r": Qt.SizeHorCursor,
+               "t": Qt.SizeVerCursor, "b": Qt.SizeVerCursor}.get(self._edge_at(e.pos()))
+        self.setCursor(cur or Qt.ArrowCursor)
 
     def mouseReleaseEvent(self, e):
+        if self._r_edge:
+            self._r_edge = None
+            self._save_geo()
         self._drag = None
+
+    def _save_geo(self):
+        try:
+            with open(GEOM, "w", encoding="utf-8") as f:
+                json.dump({"w": self.width(), "h": self.height()}, f)
+        except Exception:
+            pass
 
     def paintEvent(self, e):
         glass.paint_root(self, 22)
@@ -861,30 +1229,42 @@ def preflight():
         admin = bool(ctypes.windll.shell32.IsUserAnAdmin())
     except Exception:
         admin = False
-    if not admin:
-        raise StarError("E0002")
+    # 非管理员不再直接退出(之前正是这条让窗口"一闪而过"),
+    # 改成受限模式:主界面照常打开,顶栏挂一条提示,刷写类动作再拦截。
+    return admin
 
 
 def main():
+    global ADMIN
+    _log("---- 启动 pid=%s argv=%s" % (os.getpid(), sys.argv))
+
+    def _hook(t, v, tb):
+        txt = "".join(traceback.format_exception(t, v, tb))
+        _log("未捕获异常:\n" + txt)
+        _die("程序内部出错了(E9000)", "%s: %s" % (t.__name__, v), txt)
+        os._exit(9)
+
+    sys.excepthook = _hook
+
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     app = QApplication(sys.argv)
     app.setFont(QFont("Microsoft YaHei UI", 9))
+    _log("Qt 已起,版本 %s" % app.applicationVersion() or "-")
     try:
-        preflight()
+        ADMIN = bool(preflight())
     except StarError as e:
-        box = QMessageBox()
-        box.setWindowTitle("无法启动 · %s" % e.code)
-        box.setText(e.info.title)
-        box.setInformativeText("原因:%s\n\n建议:%s" % (e.info.why, e.info.fix))
-        box.setIcon(QMessageBox.Critical)
-        box.setStyleSheet("QMessageBox{background:#1B1E25;} QLabel{color:#E9EDF5;font-size:12px;}"
-                          "QPushButton{background:rgba(255,255,255,0.10);color:#E9EDF5;border:none;"
-                          "border-radius:8px;padding:6px 16px;}")
-        box.exec_()
-        sys.exit(2)
+        _die("%s · %s" % (e.code, e.info.title), "%s\n建议:%s" % (e.info.why, e.info.fix))
+    _log("preflight ok, admin=%s" % ADMIN)
     w = MainWindow()
     w.show()
+    _log("窗口已显示(自本模块导入起 %.2fs)" % (time.perf_counter() - _T0))
+    try:
+        with open(FLAG, "w", encoding="utf-8") as f:
+            f.write(str(os.getpid()))
+    except Exception:
+        pass
     sys.exit(app.exec_())
+
 
 
 if __name__ == "__main__":

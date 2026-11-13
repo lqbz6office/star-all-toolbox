@@ -20,8 +20,8 @@ import re
 import subprocess
 import zipfile
 
-from . import updater
 from .errors import StarError
+# ⚠ updater 拖进 urllib+email 共 0.25s,启动时用不到,函数里再导(见 _updater())
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BIN = os.path.join(ROOT, "StarATB", "bin")
@@ -30,9 +30,14 @@ TMP = os.path.join(ROOT, "tmp", "staros")
 REPO = "lqbz6office/star-os-assets"
 
 
+def _updater():
+    from . import updater
+    return updater
+
+
 def plan(channel="stable"):
     """返回 {version, versionCode, name, urls[], size} —— 只读清单,不下载。"""
-    info = updater.read_manifest(channel)
+    info = _updater().read_manifest(channel)
     ver = info.get("version")
     if not ver:
         raise StarError("E5001")

@@ -34,6 +34,12 @@ BETA_URLS = [
     "https://cdn.jsdelivr.net/gh/lqbz6office/star-os-beta@main/update.json",
     "https://raw.githubusercontent.com/lqbz6office/star-os-beta/main/update.json",
 ]
+# Star All Tool Box 自己的清单 —— 和手表模块那套 update.json 完全两码事
+APP_URLS = [
+    "https://staros.lqbz.dpdns.org/gh/lqbz6office/star-all-toolbox/main/version.json",
+    "https://cdn.jsdelivr.net/gh/lqbz6office/star-all-toolbox@main/version.json",
+    "https://raw.githubusercontent.com/lqbz6office/star-all-toolbox/main/version.json",
+]
 
 
 def _ctx():
@@ -58,6 +64,20 @@ def fetch(url, timeout=12):
 
 def urls_for(channel):
     return list(BETA_URLS if channel == "beta" else STABLE_URLS)
+
+
+def read_app_manifest():
+    """读 StarATB 自己的 version.json;全镜像都失败返回 None(不算错误)。"""
+    for url in APP_URLS:
+        try:
+            raw = fetch(url, timeout=8)
+            data = json.loads(raw.decode("utf-8", "replace"))
+        except Exception:
+            continue
+        if isinstance(data, dict) and data.get("versionCode"):
+            data["_source"] = url
+            return data
+    return None
 
 
 def read_manifest(channel="stable"):
