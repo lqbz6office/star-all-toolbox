@@ -1,0 +1,16 @@
+# 引擎本体：体积大、属于原作者，不进仓库
+StarATB/
+StarATB_127U/
+
+# 运行时产物
+tmp/
+app/__pycache__/
+app/core/__pycache__/
+tools/__pycache__/
+.venv/
+*.pyc
+
+# 本地配置 / 截图
+tools/shot.png
+tools/font.png
+dev-platform/

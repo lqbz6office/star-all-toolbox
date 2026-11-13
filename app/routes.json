@@ -1,0 +1,3862 @@
+{
+ "menus": {
+  "A11.json": [
+   {
+    "value": "1",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z11(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "appset.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "安装应用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "卸载应用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "设置微信QQ为开机自启应用",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "backup.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "相册备份",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "相册恢复",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "9008重要分区备份",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "9008重要分区恢复",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "adb通用分区备份(不含ud)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "adb通用分区恢复(不含ud)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "backup_9008.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "backup_DCIM.json": [
+   {
+    "value": "1",
+    "label": "启用备份相册",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "0",
+    "label": "跳过备份相册",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "cloud.json": [
+   {
+    "value": "1",
+    "label": "运行root基础组件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "twrp资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "xp-资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "8.1Root后优化资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "驱动资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Q1S-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Q1Y-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Q2-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z1-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z1S-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z2-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z3-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z5-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z5A-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "15",
+    "label": "Z5Pro-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "16",
+    "label": "Z6-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "17",
+    "label": "Z6dfb-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "18",
+    "label": "Z7-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "19",
+    "label": "Z7A-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "20",
+    "label": "Z7S-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "21",
+    "label": "Z8-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "22",
+    "label": "Z8A-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "23",
+    "label": "Z9-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "24",
+    "label": "Z10-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "25",
+    "label": "Z11-Root资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "26",
+    "label": "D3-Root资源",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "commonly.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "一键离线OTA升级",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "刷入TWRP",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "备份与恢复",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "安卓8.1root后优化",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "scrcpy投屏",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "打开充电可用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "一键超级恢复",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "刷入xp框架",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "无线调试[adb]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "debug.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "色卡",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "调整为未使用状态",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "调整为使用状态",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "调整为更新状态",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "debug sel",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "isv3.json": [
+   {
+    "value": "1",
+    "label": "是",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "0",
+    "label": "否",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "magisk.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "选择并刷入单个magisk模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "选择并刷入多个magisk模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "选择一个文件夹并刷入其中的所有magisk模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "列出已安装的magisk模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "卸载指定magisk模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "切换安装magisk模块的方式",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "切换卸载magisk模块的方式",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "刷入XTC Patch[可用于更新]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "main.json": [
+   {
+    "value": "s",
+    "label": "搜索功能项",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "一键Root设备",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "进入RTOS专区",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "在此处打开cmd[含adb环境]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "关于脚本",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "常用功能",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "高级重启",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "下载功能所需资源",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "应用管理",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Magisk模块管理",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "高级功能",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "工具箱设置",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "DEBUG",
+    "label": "",
+    "hidden": true,
+    "trigger": "debug"
+   },
+   {
+    "value": "DEBUG",
+    "label": "",
+    "hidden": true,
+    "trigger": "hidemenu"
+   },
+   {
+    "value": "DEBUG",
+    "label": "",
+    "hidden": true,
+    "trigger": "hidset"
+   }
+  ],
+  "menu.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "miscre.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "modulestore-about.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "模块商店更新日志",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "模块商店捐赠列表",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "模块商店特别鸣谢",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "modulestore-list.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "全部模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "开机动画模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "表盘模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "工具模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "字体模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "游戏模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "系统优化模块",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "modulestore-other.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "模块商店公告",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "模块商店帮助",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "作者排行榜",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "modulestore-search.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "modulestore.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "列出模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "搜索模块",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "其他功能",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "关于模块商店",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "nd03ver.json": [
+   {
+    "value": "1",
+    "label": "281Root固件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "302Root固件",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "ota.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "ota_mode.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "云服务拉取[推荐]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "手动选择ota包",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "快捷9008进入qmmi",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "pashtwrp.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "qmmi.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rebootpro.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "重启至系统",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "重启至Bootloader/Fastboot",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "重启至recovery",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "重启至9008",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "临时启动twrp",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "misc进入qmmi",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "misc进入ffbm",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "misc进入Recovery并清除data",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "misc进入fastbootd",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rebootpro_edl.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "高版本[z6巅峰版及以上]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "低版本[z6及以下]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "elf[z10以上]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "跳过引导",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rebtwrp.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "15",
+    "label": "Z11(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root-SDK25.json": [
+   {
+    "value": "1",
+    "label": "BOOT方案[如果已经降级请选择此方案]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Recovery方案[最新系统可使用此方案]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root.json": [
+   {
+    "value": "1",
+    "label": "Z2",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "Z3",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "Z5A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "Z5Q",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "Z5PRO",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "Z6",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "Z6巅峰版",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "Z7",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "Z7A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "Z7S",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "Z8(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "Z8A",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "Z9(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "Z10(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "15",
+    "label": "Z11(或少年版)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root_setting_i3.json": [
+   {
+    "value": "130510",
+    "label": "130510桌面[推荐]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "146000",
+    "label": "146000桌面[Z12桌面]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "123910",
+    "label": "123910桌面",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root_setting_lsp.json": [
+   {
+    "value": "xp",
+    "label": "预装xp框架[推荐]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "lsp",
+    "label": "预装lsp框架[实验性]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root_setting_mode.json": [
+   {
+    "value": "0",
+    "label": "启用root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "跳过root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "跳过root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "跳过root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root_setting_root_manage.json": [
+   {
+    "value": "magisk",
+    "label": "普通面具[推荐]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "magisk_delta",
+    "label": "狐狸面具[实验性]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "root_setting_rootpro.json": [
+   {
+    "value": "1",
+    "label": "启用root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "0",
+    "label": "跳过root后预装优化",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rtos-at_private.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "[AT+BINDNUM]获取绑定号码",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "[AT+DOWNLOADMODEL]获取机型",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "[AT+DOWNLOADVERSION]获取设备版本号",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "[AT+BATCAP]获取电池电量",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "[AT+ELEQUAN]获取电池电量",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rtos-at_public.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "[AT+CGMI]查询模块制造商",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "[AT+CGMM]查询模块型号",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "[AT+CGMR]查询固件版本",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "[AT+CGATT?]查询数据业务附着状态",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "[AT+COPS? ]查询当前注册的运营商网络",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "[ATD(phone)]发起语音拨号",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "[AT+CEREG?]查询4G网络注册状态",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "[AT+CMGS]发送短信",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "[ATD*99#ONT=1]拨号上网",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "[AT+SPLBAND=0]设置频段",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "[AT+SPIMEI?]查询设备IMEI号",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "[AT+CGDCONT?]查询PDP上下文配置",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "[AT+CFUN=1,1]复位重启模块",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rtos-at_tool.json": [
+   {
+    "value": "A",
+    "label": "返回主页",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "公用指令",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "xtc私有指令",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "rtos.json": [
+   {
+    "value": "A",
+    "label": "返回主页",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "USB2U盘[解除拨号限制]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "安装应用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "卸载应用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "已安装应用列表",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "导出应用",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "AT指令工具",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "相册",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "通话记录",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "个人中心",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "RPK商店",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "应用商店开关",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "run_cmd.json": [
+   {
+    "value": "1",
+    "label": "是",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "否",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "scrcpy-ui.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "禁用设备控制 (--no-control)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "启动时关闭设备屏幕 (--turn-screen-off)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "保持设备唤醒 (--stay-awake)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "录制屏幕到文件 (--record=FILE.mp4)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "录制时不包含音频 (--no-audio)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "启用音频转发 (--audio)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "禁用剪贴板自动同步 (--no-clipboard-autosync)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "使用旧版粘贴方式 (--legacy-paste)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "在设备上显示触摸 (--show-touches)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "10",
+    "label": "设置最大帧率 (--max-fps=FPS)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "11",
+    "label": "窗口置顶 (--always-on-top)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "12",
+    "label": "全屏启动 (--fullscreen)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "13",
+    "label": "无边框窗口 (--window-borderless)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "14",
+    "label": "设置录制格式 (--record-format=FORMAT)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "15",
+    "label": "设置视频比特率 (--bit-rate=RATE)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "16",
+    "label": "裁剪屏幕区域 (--crop=W:H:X:Y)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "17",
+    "label": "设置窗口标题 (--window-title=TEXT)",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "18",
+    "label": "设置显示最大尺寸 (--max-size=WIDTH)",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "scripttool-patchboot.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "针对SDK27修补",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "针对SDK25修补",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "针对SDK27狐狸面具修补",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "scripttool.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "型号与innermodel对照表",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "导入本地root文件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "一键root[不刷userdata]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "开机自刷Recovery",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "读取手表信息",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "一键root[无adb运行]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "一键root[即无adb也不刷ud]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "8",
+    "label": "下载并打开刷机匣工具箱",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "9",
+    "label": "修补boot[root流程单功能]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "setmagisk-in.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "magisk官方接口安装模块[推荐]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "sh脚本模拟安装[通用]",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "强制进行安装[!危险!]",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "setmagisk-un.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "标记为卸载",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "删除模块文件夹",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "进行卸载脚本并删除文件夹",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "settings.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "开启/关闭快速启动",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "版本信息",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "CMD窗口设置",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "强制重新安装驱动",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "强制执行工具箱更新",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "使用备用的引导文件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "重新设置root偏好",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "super_rec_mode.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "自动下载超级恢复",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "手动选择固件包或超级恢复",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "unapp.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "查看所有应用包名",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "查看第三方应用包名",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "卸载应用",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "userinstapp.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "选择并安装单个APK文件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "选择并安装多个APK文件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "选择一个文件夹并安装其中的所有APK文件",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "切换install方式安装",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "5",
+    "label": "切换data方式安装",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "6",
+    "label": "切换调用第三方安装器方式安装",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "7",
+    "label": "切换install-create方式安装",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "wifiadb.json": [
+   {
+    "value": "A",
+    "label": "返回上级菜单",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "1",
+    "label": "手动连接无线调试",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "2",
+    "label": "配对无线调试",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "3",
+    "label": "有线转无线",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "4",
+    "label": "关闭无线调试",
+    "hidden": false,
+    "trigger": ""
+   }
+  ],
+  "yesno.json": [
+   {
+    "value": "y",
+    "label": "是",
+    "hidden": false,
+    "trigger": ""
+   },
+   {
+    "value": "n",
+    "label": "否",
+    "hidden": false,
+    "trigger": ""
+   }
+  ]
+ },
+ "routes": {
+  "backup.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "DCIM-backup",
+    "raw": "goto DCIM-backup"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "DCIM-recover",
+    "raw": "goto DCIM-recover"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "9008-backup",
+    "raw": "goto 9008-backup"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "9008-recover",
+    "raw": "goto 9008-recover"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "adb-dd-backup",
+    "raw": "goto adb-dd-backup"
+   },
+   "6": {
+    "kind": "goto",
+    "target": "adb-dd-recover",
+    "raw": "goto adb-dd-recover"
+   }
+  },
+  "backup_9008.json": {
+   "A": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "goto MAIN_MENU"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I13C&&set v3=0&&goto 9008-backup-run"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I13&&set v3=0&&goto 9008-backup-run"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I19&&set v3=0&&goto 9008-backup-run"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I20&&set v3=1&&goto 9008-backup-run"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I25&&set v3=1&&goto 9008-backup-run"
+   },
+   "6": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I25D&&set v3=1&&goto 9008-backup-run"
+   },
+   "7": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=I32&&set v3=1&&goto 9008-backup-run"
+   },
+   "8": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=ND07&&set v3=1&&goto 9008-backup-run"
+   },
+   "9": {
+    "kind": "goto",
+    "target": "9008-backup-run",
+    "raw": "set innermodel=ND01&&set v3=1&&goto 9008-backup-run"
+   }
+  },
+  "main.json": {
+   "s": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "1": {
+    "kind": "call",
+    "target": "root",
+    "raw": "CLS & call root & goto menu"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "CLS & cmd /k & goto menu"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "about",
+    "raw": "goto about"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "commonly",
+    "raw": "goto commonly"
+   },
+   "5": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "CLS & call rebootpro & goto menu"
+   },
+   "6": {
+    "kind": "call",
+    "target": "cloud",
+    "raw": "CLS & call cloud & goto menu"
+   },
+   "7": {
+    "kind": "goto",
+    "target": "appset",
+    "raw": "goto appset"
+   },
+   "8": {
+    "kind": "goto",
+    "target": "magisk",
+    "raw": "goto magisk"
+   },
+   "9": {
+    "kind": "goto",
+    "target": "scripttool",
+    "raw": "goto scripttool"
+   },
+   "10": {
+    "kind": "goto",
+    "target": "settings",
+    "raw": "goto settings"
+   },
+   "11": {
+    "kind": "call",
+    "target": "rtos_main",
+    "raw": "CLS & call rtos_main & goto menu"
+   },
+   "DEBUG": {
+    "kind": "goto",
+    "target": "debug",
+    "raw": "goto debug"
+   }
+  },
+  "appset.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "call",
+    "target": "userinstapp",
+    "raw": "CLS & call userinstapp & goto appset"
+   },
+   "2": {
+    "kind": "call",
+    "target": "unapp",
+    "raw": "CLS & call unapp & goto appset"
+   },
+   "3": {
+    "kind": "call",
+    "target": "qqwxautestart",
+    "raw": "CLS & call qqwxautestart & goto appset"
+   }
+  },
+  "commonly.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "call",
+    "target": "ota",
+    "raw": "CLS & call ota & goto commonly"
+   },
+   "2": {
+    "kind": "call",
+    "target": "pashtwrp",
+    "raw": "CLS & call pashtwrp & goto commonly"
+   },
+   "3": {
+    "kind": "call",
+    "target": "backup",
+    "raw": "CLS & call backup & goto commonly"
+   },
+   "4": {
+    "kind": "call",
+    "target": "rootpro",
+    "raw": "CLS & call rootpro & goto commonly"
+   },
+   "5": {
+    "kind": "call",
+    "target": "scrcpy-ui",
+    "raw": "CLS & call scrcpy-ui.bat & goto commonly"
+   },
+   "6": {
+    "kind": "call",
+    "target": "opencharge",
+    "raw": "CLS & call opencharge & goto commonly"
+   },
+   "7": {
+    "kind": "call",
+    "target": "super_recovery",
+    "raw": "CLS & call super_recovery & goto commonly"
+   },
+   "8": {
+    "kind": "call",
+    "target": "Xposed",
+    "raw": "CLS & call Xposed & goto commonly"
+   },
+   "9": {
+    "kind": "call",
+    "target": "wifiadb",
+    "raw": "CLS & call wifiadb & goto commonly"
+   }
+  },
+  "magisk.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "call",
+    "target": "userinstmodule",
+    "raw": "CLS & call userinstmodule 1 & goto magisk"
+   },
+   "2": {
+    "kind": "call",
+    "target": "userinstmodule",
+    "raw": "CLS & call userinstmodule 2 & goto magisk"
+   },
+   "3": {
+    "kind": "call",
+    "target": "userinstmodule",
+    "raw": "CLS & call userinstmodule 3 & goto magisk"
+   },
+   "4": {
+    "kind": "call",
+    "target": "magisklist",
+    "raw": "CLS & call magisklist & goto magisk"
+   },
+   "5": {
+    "kind": "call",
+    "target": "userunmodule",
+    "raw": "CLS & call userunmodule & goto magisk"
+   },
+   "6": {
+    "kind": "call",
+    "target": "setmagisk",
+    "raw": "CLS & call setmagisk install & goto magisk"
+   },
+   "7": {
+    "kind": "call",
+    "target": "setmagisk",
+    "raw": "CLS & call setmagisk un & goto magisk"
+   },
+   "8": {
+    "kind": "call",
+    "target": "xtcpatch",
+    "raw": "CLS & call xtcpatch & goto magisk"
+   },
+   "9": {
+    "kind": "call",
+    "target": "modulestore",
+    "raw": "CLS & call modulestore & goto magisk"
+   }
+  },
+  "scripttool.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "call",
+    "target": "innermodel",
+    "raw": "CLS & call innermodel & goto scripttool"
+   },
+   "2": {
+    "kind": "call",
+    "target": "pashroot",
+    "raw": "CLS & call pashroot & goto scripttool"
+   },
+   "3": {
+    "kind": "call",
+    "target": "root",
+    "raw": "CLS & call root nouserdata & goto scripttool"
+   },
+   "4": {
+    "kind": "call",
+    "target": "pashtwrppro",
+    "raw": "CLS & call pashtwrppro & goto scripttool"
+   },
+   "5": {
+    "kind": "call",
+    "target": "listbuild",
+    "raw": "CLS & call listbuild & goto scripttool"
+   },
+   "6": {
+    "kind": "call",
+    "target": "root",
+    "raw": "CLS & call root rootedl & goto scripttool"
+   },
+   "7": {
+    "kind": "call",
+    "target": "root",
+    "raw": "CLS & call root allmod & goto scripttool"
+   },
+   "8": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "9": {
+    "kind": "goto",
+    "target": "scripttool-patchboot",
+    "raw": "goto scripttool-patchboot"
+   }
+  },
+  "scripttool-patchboot.json": {
+   "A": {
+    "kind": "goto",
+    "target": "scripttool",
+    "raw": "goto scripttool"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "scripttool-patchboot-27",
+    "raw": "goto scripttool-patchboot-27"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "scripttool-patchboot-25",
+    "raw": "goto scripttool-patchboot-25"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "scripttool-patchboot-27-delta",
+    "raw": "goto scripttool-patchboot-27-delta"
+   }
+  },
+  "settings.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "speedstart",
+    "raw": "goto speedstart"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "Script-Information",
+    "raw": "goto Script-Information"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "settings",
+    "raw": "ground_glass slider & goto settings"
+   },
+   "4": {
+    "kind": "call",
+    "target": "checkdriver",
+    "raw": "call checkdriver.bat fixdriver & goto settings"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "update_now",
+    "raw": "goto update_now"
+   },
+   "6": {
+    "kind": "goto",
+    "target": "firehose",
+    "raw": "goto firehose"
+   },
+   "7": {
+    "kind": "call",
+    "target": "root_setting",
+    "raw": "CLS & call root_setting atbset & goto settings"
+   }
+  },
+  "debug.json": {
+   "A": {
+    "kind": "goto",
+    "target": "menu",
+    "raw": "goto menu"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "color",
+    "raw": "goto color"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "debug",
+    "raw": "set /p=\"1\" <nul > whoyou.txt & goto debug"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "debug",
+    "raw": "set /p=\"2\" <nul > whoyou.txt & goto debug"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "debug",
+    "raw": "set /p=\"3\" <nul > whoyou.txt & goto debug"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "sel",
+    "raw": "goto sel"
+   }
+  },
+  "modulestore.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "modulestore-list",
+    "raw": "goto modulestore-list"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "modulestore-search",
+    "raw": "goto modulestore-search"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "modulestore-other",
+    "raw": "goto modulestore-other"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "modulestore-about",
+    "raw": "goto modulestore-about"
+   }
+  },
+  "modulestore-about.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi update"
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi donation"
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi thank"
+   }
+  },
+  "modulestore-other.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi notice"
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi help"
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "cls & modapi rank"
+   }
+  },
+  "modulestore-search.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   }
+  },
+  "modulestore-list.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   }
+  },
+  "ota_mode.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "get_ota",
+    "raw": "goto get_ota"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "run",
+    "raw": "goto run"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "qmmi",
+    "raw": "goto qmmi"
+   }
+  },
+  "ota.json": {
+   "A": {
+    "kind": "goto",
+    "target": "ota_mode",
+    "raw": "goto ota_mode"
+   },
+   "7": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I20"
+   },
+   "8": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25"
+   },
+   "9": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25C"
+   },
+   "10": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25D"
+   },
+   "11": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I32"
+   },
+   "12": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash ND07"
+   },
+   "13": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash ND01"
+   },
+   "14": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi z10 ND03"
+   }
+  },
+  "pashtwrp.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I12&&set QSaharaServer=msm8909w.mbn"
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=IB&&set QSaharaServer=msm8909w.mbn"
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I13C&&set QSaharaServer=msm8909w.mbn"
+   },
+   "4": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I13&&set QSaharaServer=msm8909w.mbn"
+   },
+   "5": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I19&&set QSaharaServer=msm8909w.mbn"
+   },
+   "6": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I18&&set QSaharaServer=msm8909w.mbn"
+   },
+   "7": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I20&&set QSaharaServer=msm8937.mbn"
+   },
+   "8": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I25&&set QSaharaServer=msm8937.mbn"
+   },
+   "9": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I25C&&set QSaharaServer=msm8937.mbn"
+   },
+   "10": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I25D&&set QSaharaServer=msm8937.mbn"
+   },
+   "11": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=I32&&set QSaharaServer=msm8937.mbn"
+   },
+   "12": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=ND07&&set QSaharaServer=msm8937.mbn"
+   },
+   "13": {
+    "kind": "none",
+    "target": "",
+    "raw": "set innermodel=ND01&&set QSaharaServer=msm8937.mbn"
+   }
+  },
+  "rebootpro.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "rebootP-reboot",
+    "raw": "goto rebootP-reboot"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "rebootP-bl",
+    "raw": "goto rebootP-bl"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "rebootP-re",
+    "raw": "goto rebootP-re"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "rebootP-edl",
+    "raw": "goto rebootP-edl"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "rebootP-twrp",
+    "raw": "goto rebootP-twrp"
+   },
+   "6": {
+    "kind": "goto",
+    "target": "show_menu",
+    "raw": "set \"mode=qmmi\" & goto show_menu"
+   },
+   "7": {
+    "kind": "goto",
+    "target": "show_menu",
+    "raw": "set \"mode=ffbm\" & goto show_menu"
+   },
+   "8": {
+    "kind": "goto",
+    "target": "show_menu",
+    "raw": "set \"mode=wipe\" & goto show_menu"
+   },
+   "9": {
+    "kind": "goto",
+    "target": "fastbootd_menu",
+    "raw": "set \"mode=fastbootd\" & goto fastbootd_menu"
+   }
+  },
+  "rebtwrp.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I12\""
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=IB\""
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I13C\""
+   },
+   "4": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I13\""
+   },
+   "5": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I19\""
+   },
+   "6": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I18\""
+   },
+   "7": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I20\""
+   },
+   "8": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25\""
+   },
+   "9": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25C\""
+   },
+   "10": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25D\""
+   },
+   "11": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I32\""
+   },
+   "12": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND07\""
+   },
+   "13": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND01\""
+   },
+   "14": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND03\""
+   },
+   "15": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND08\""
+   }
+  },
+  "qmmi.json": {
+   "A": {
+    "kind": "goto",
+    "target": "rebootP",
+    "raw": "goto rebootP"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I12\" & set \"platform=otherpash\""
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=IB\" & set \"platform=otherpash\""
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I13C\" & set \"platform=otherpash\""
+   },
+   "4": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I13\" & set \"platform=otherpash\""
+   },
+   "5": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I19\" & set \"platform=otherpash\""
+   },
+   "6": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I18\" & set \"platform=otherpash\""
+   },
+   "7": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I20\" & set \"platform=v3pash\""
+   },
+   "8": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25\" & set \"platform=v3pash\""
+   },
+   "9": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25C\" & set \"platform=v3pash\""
+   },
+   "10": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I25D\" & set \"platform=v3pash\""
+   },
+   "11": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=I32\" & set \"platform=v3pash\""
+   },
+   "12": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND07\" & set \"platform=v3pash\""
+   },
+   "13": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND01\" & set \"platform=v3pash\""
+   },
+   "14": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND03\" & set \"platform=z10\""
+   }
+  },
+  "A11.json": {
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND03\" & set \"platform=z10\""
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"innermodel=ND08\" & set \"platform=z10\""
+   }
+  },
+  "root.json": {
+   "7": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I20 && goto EDL_run"
+   },
+   "8": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25 && goto EDL_run"
+   },
+   "9": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25C && goto EDL_run"
+   },
+   "10": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I25D && goto EDL_run"
+   },
+   "11": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash I32 && goto EDL_run"
+   },
+   "12": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro qmmi v3pash ND07 && goto EDL_run"
+   },
+   "13": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "14": {
+    "kind": "call",
+    "target": ":info",
+    "raw": "call :info \"ND03\" \"Z10\" \"30\" \"11\" && goto skipgetinfo"
+   },
+   "15": {
+    "kind": "call",
+    "target": ":info",
+    "raw": "call :info \"ND08\" \"Z11\" \"30\" \"11\" && goto skipgetinfo"
+   },
+   "1": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash I12 && goto other_edl"
+   },
+   "2": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash IB && goto other_edl"
+   },
+   "3": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash I13C && goto other_edl"
+   },
+   "4": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash I13 && goto other_edl"
+   },
+   "5": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash I19 && goto other_edl"
+   },
+   "6": {
+    "kind": "call",
+    "target": "rebootpro",
+    "raw": "call rebootpro wipe otherpash I18 && goto other_edl"
+   }
+  },
+  "backup_DCIM.json": {
+   "1": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf backup_DCIM 1"
+   },
+   "0": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf backup_DCIM 0"
+   }
+  },
+  "root_setting_rootpro.json": {
+   "1": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf rootpro 1"
+   },
+   "0": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf rootpro 0"
+   }
+  },
+  "root_setting_i3.json": {
+   "130510": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf i3 130510"
+   },
+   "146000": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf i3 146000"
+   },
+   "123910": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf i3 123910"
+   }
+  },
+  "root_setting_lsp.json": {
+   "xp": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf hook xp"
+   },
+   "lsp": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf hook lsp"
+   },
+   "vector": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf hook vector"
+   }
+  },
+  "root_setting_root_manage.json": {
+   "magisk": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf root magisk"
+   },
+   "magisk_delta": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf root magisk_delta"
+   },
+   "apatch": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf root apatch"
+   },
+   "kernelsu": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf root kernelsu"
+   },
+   "sukisu": {
+    "kind": "call",
+    "target": ":setconf",
+    "raw": "call :setconf root sukisu"
+   }
+  },
+  "rtos.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": ":usb_2_umsc",
+    "raw": "goto :usb_2_umsc"
+   },
+   "2": {
+    "kind": "goto",
+    "target": ":install_app",
+    "raw": "goto :install_app"
+   },
+   "3": {
+    "kind": "goto",
+    "target": ":uninstall_app",
+    "raw": "goto :uninstall_app"
+   },
+   "4": {
+    "kind": "goto",
+    "target": ":list_apps",
+    "raw": "goto :list_apps"
+   },
+   "5": {
+    "kind": "goto",
+    "target": ":export_app",
+    "raw": "goto :export_app"
+   },
+   "6": {
+    "kind": "goto",
+    "target": ":at_tool",
+    "raw": "goto :at_tool"
+   },
+   "7": {
+    "kind": "goto",
+    "target": ":photo_viewer",
+    "raw": "goto :photo_viewer"
+   },
+   "8": {
+    "kind": "goto",
+    "target": ":call_records",
+    "raw": "goto :call_records"
+   },
+   "9": {
+    "kind": "goto",
+    "target": ":personal_center",
+    "raw": "goto :personal_center"
+   },
+   "10": {
+    "kind": "goto",
+    "target": ":rpk_store",
+    "raw": "goto :rpk_store"
+   },
+   "11": {
+    "kind": "goto",
+    "target": ":app_store_switch",
+    "raw": "goto :app_store_switch"
+   }
+  },
+  "rtos-at_tool.json": {
+   "A": {
+    "kind": "goto",
+    "target": ":rtos_main",
+    "raw": "goto :rtos_main"
+   },
+   "1": {
+    "kind": "goto",
+    "target": ":at_public",
+    "raw": "goto :at_public"
+   },
+   "2": {
+    "kind": "goto",
+    "target": ":at_private",
+    "raw": "goto :at_private"
+   }
+  },
+  "rtos-at_public.json": {
+   "A": {
+    "kind": "goto",
+    "target": ":at_tool",
+    "raw": "goto :at_tool"
+   },
+   "1": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CGMI\" & set \"at_desc=查询模块制造商\" & goto :at_run"
+   },
+   "2": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CGMM\" & set \"at_desc=查询模块型号\" & goto :at_run"
+   },
+   "3": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CGMR\" & set \"at_desc=查询固件版本\" & goto :at_run"
+   },
+   "4": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CGATT?\" & set \"at_desc=查询数据业务附着状态\" & goto :at_run"
+   },
+   "5": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+COPS?\" & set \"at_desc=查询当前注册的运营商网络\" & goto :at_run"
+   },
+   "6": {
+    "kind": "goto",
+    "target": ":at_pub_dial",
+    "raw": "goto :at_pub_dial"
+   },
+   "7": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CEREG?\" & set \"at_desc=查询4G网络注册状态\" & goto :at_run"
+   },
+   "8": {
+    "kind": "goto",
+    "target": ":at_pub_sms",
+    "raw": "goto :at_pub_sms"
+   },
+   "9": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=ATD*99#ONT=1\" & set \"at_desc=拨号上网\" & goto :at_run"
+   },
+   "10": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+SPLBAND=0\" & set \"at_desc=设置频段\" & goto :at_run"
+   },
+   "11": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+SPIMEI?\" & set \"at_desc=查询设备IMEI号\" & goto :at_run"
+   },
+   "12": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CGDCONT?\" & set \"at_desc=查询PDP上下文配置\" & goto :at_run"
+   },
+   "13": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+CFUN=1,1\" & set \"at_desc=复位重启模块\" & goto :at_run"
+   }
+  },
+  "rtos-at_private.json": {
+   "0": {
+    "kind": "goto",
+    "target": ":at_tool",
+    "raw": "goto :at_tool"
+   },
+   "1": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+BINDNUM\" & set \"at_desc=获取绑定号码\" & goto :at_run"
+   },
+   "2": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+DOWNLOADMODEL\" & set \"at_desc=获取机型\" & goto :at_run"
+   },
+   "3": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+DOWNLOADVERSION\" & set \"at_desc=获取设备版本号\" & goto :at_run"
+   },
+   "4": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+BATCAP\" & set \"at_desc=获取电池电量\" & goto :at_run"
+   },
+   "5": {
+    "kind": "goto",
+    "target": ":at_run",
+    "raw": "set \"at_cmd=AT+ELEQUAN\" & set \"at_desc=获取电池电量\" & goto :at_run"
+   }
+  },
+  "setmagisk-un.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"script\" <nul > magiskunmod.txt"
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"direct\" <nul > magiskunmod.txt"
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"mark\" <nul > magiskunmod.txt"
+   }
+  },
+  "setmagisk-in.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"magisk\" <nul > magiskinstmod.txt"
+   },
+   "2": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"shinst\" <nul > magiskinstmod.txt"
+   },
+   "3": {
+    "kind": "none",
+    "target": "",
+    "raw": "set /p=\"peremptory\" <nul > magiskinstmod.txt"
+   }
+  },
+  "super_rec_mode.json": {
+   "A": {
+    "kind": "goto",
+    "target": "super_rec_mode",
+    "raw": "goto super_rec_mode"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "auto",
+    "raw": "goto auto"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "manual",
+    "raw": "goto manual"
+   }
+  },
+  "unapp.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "echo.%INFO% 所有应用列表:%RESET% & adb shell pm list packages & pause.exe & goto MAIN_MENU"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "echo.%INFO% 第三方应用列表:%RESET% & adb shell pm list packages -3 & pause.exe & goto MAIN_MENU"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "UNINSTALL",
+    "raw": "goto UNINSTALL"
+   }
+  },
+  "userinstapp.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "a": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "1": {
+    "kind": "goto",
+    "target": "INSTALL_SINGLE_SEL",
+    "raw": "goto INSTALL_SINGLE_SEL"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "INSTALL_MULTI_SEL",
+    "raw": "goto INSTALL_MULTI_SEL"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "INSTALL_FOLDER_SEL",
+    "raw": "goto INSTALL_FOLDER_SEL"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "set /p=\"install\" <nul > instmod.txt & echo %GREEN%修改安装方式成功%RESET% & timeout /t 2 >nul & goto MAIN_MENU"
+   },
+   "5": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "set /p=\"data\" <nul > instmod.txt & echo %GREEN%修改安装方式成功%RESET% & timeout /t 2 >nul & goto MAIN_MENU"
+   },
+   "6": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "set /p=\"3install\" <nul > instmod.txt & echo %GREEN%修改安装方式成功%RESET% & timeout /t 2 >nul & goto MAIN_MENU"
+   },
+   "7": {
+    "kind": "goto",
+    "target": "MAIN_MENU",
+    "raw": "set /p=\"create\" <nul > instmod.txt & echo %GREEN%修改安装方式成功%RESET% & timeout /t 2 >nul & goto MAIN_MENU"
+   }
+  },
+  "wifiadb.json": {
+   "A": {
+    "kind": "none",
+    "target": "",
+    "raw": "exit /b"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "manual_connect",
+    "raw": "goto manual_connect"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "pair_wireless",
+    "raw": "goto pair_wireless"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "usbtowifi",
+    "raw": "goto usbtowifi"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "close_wireless",
+    "raw": "goto close_wireless"
+   }
+  }
+ },
+ "sources": {
+  "backup.json": "backup.bat",
+  "backup_9008.json": "backup.bat",
+  "main.json": "main.bat",
+  "appset.json": "main.bat",
+  "commonly.json": "main.bat",
+  "magisk.json": "main.bat",
+  "scripttool.json": "main.bat",
+  "scripttool-patchboot.json": "main.bat",
+  "settings.json": "main.bat",
+  "debug.json": "main.bat",
+  "modulestore.json": "modulestore.bat",
+  "modulestore-about.json": "modulestore.bat",
+  "modulestore-other.json": "modulestore.bat",
+  "modulestore-search.json": "modulestore.bat",
+  "modulestore-list.json": "modulestore.bat",
+  "ota_mode.json": "ota.bat",
+  "ota.json": "ota.bat",
+  "pashtwrp.json": "pashtwrp.bat",
+  "rebootpro.json": "rebootpro.bat",
+  "rebtwrp.json": "rebootpro.bat",
+  "qmmi.json": "rebootpro.bat",
+  "A11.json": "rebootpro.bat",
+  "root.json": "root.bat",
+  "backup_DCIM.json": "root_setting.bat",
+  "root_setting_rootpro.json": "root_setting.bat",
+  "root_setting_i3.json": "root_setting.bat",
+  "root_setting_lsp.json": "root_setting.bat",
+  "root_setting_root_manage.json": "root_setting.bat",
+  "rtos.json": "rtos_main.bat",
+  "rtos-at_tool.json": "rtos_main.bat",
+  "rtos-at_public.json": "rtos_main.bat",
+  "rtos-at_private.json": "rtos_main.bat",
+  "setmagisk-un.json": "setmagisk.bat",
+  "setmagisk-in.json": "setmagisk.bat",
+  "super_rec_mode.json": "super_recovery.bat",
+  "unapp.json": "unapp.bat",
+  "userinstapp.json": "userinstapp.bat",
+  "wifiadb.json": "wifiadb.bat"
+ },
+ "sections": {
+  "Loadatbmod.bat": {
+   "processmodule": "yesno.json"
+  },
+  "P_fh_loader.bat": {},
+  "QSaharaServer.bat": {},
+  "Xposed.bat": {},
+  "adbdevice.bat": {},
+  "automagisk.bat": {},
+  "autosystemplus.bat": {},
+  "backup.bat": {
+   "main_menu": "backup.json",
+   "9008-backup": "backup_9008.json",
+   "found_by_name_rec": "yesno.json"
+  },
+  "boot_completed.bat": {},
+  "checkdriver.bat": {},
+  "checkfile.bat": {},
+  "cloud.bat": {},
+  "color.bat": {},
+  "curltool.bat": {},
+  "edlport.bat": {},
+  "fh_loader.bat": {},
+  "innermodel.bat": {},
+  "instapp.bat": {},
+  "instmodule.bat": {},
+  "isv3.bat": {},
+  "link.bat": {},
+  "listbuild.bat": {},
+  "logo.bat": {},
+  "magisklist.bat": {},
+  "magiskpatch.bat": {},
+  "main.bat": {
+   "echo_notice": "main.json",
+   "appset": "appset.json",
+   "commonly": "commonly.json",
+   "magisk": "magisk.json",
+   "scripttool": "scripttool.json",
+   "scripttool-patchboot": "scripttool-patchboot.json",
+   "settings": "settings.json",
+   "speedstart": "yesno.json",
+   "update_now": "yesno.json",
+   "debug": "debug.json"
+  },
+  "menu_tool.bat": {},
+  "modulestore.bat": {
+   "menu": "modulestore.json",
+   "modulestore-about": "modulestore-about.json",
+   "modulestore-other": "modulestore-other.json",
+   "modulestore-search": "modulestore-search.json",
+   "modulestore-list": "modulestore-list.json"
+  },
+  "number.bat": {},
+  "nutime.bat": {},
+  "opencharge.bat": {},
+  "ota.bat": {
+   "ota_mode": "ota_mode.json",
+   "qmmi": "ota.json"
+  },
+  "pashroot.bat": {},
+  "pashtwrp.bat": {},
+  "pashtwrppro.bat": {},
+  "pushtool.bat": {},
+  "qfh_loader.bat": {},
+  "qqwxautestart.bat": {},
+  "rebootpro.bat": {
+   "rebootp": "rebootpro.json",
+   "rebootp-reboot-edl": "rebootpro_edl.json",
+   "rebootp-re-bl": "rebtwrp.json",
+   "rebootp-edl-bl": "rebtwrp.json",
+   "rebootp-twrp-bl": "rebtwrp.json",
+   "show_menu": "qmmi.json",
+   "fastbootd_menu": "A11.json"
+  },
+  "resvertool.bat": {},
+  "root-SDK19.bat": {},
+  "root-SDK25.bat": {
+   "root-sdk25": "root-SDK25.json"
+  },
+  "root-SDK27.bat": {},
+  "root-SDK30.bat": {},
+  "root.bat": {
+   "edl_menu": "root.json"
+  },
+  "root_setting.bat": {
+   "main_set": "backup_DCIM.json"
+  },
+  "rootedlrun.bat": {},
+  "rootpro.bat": {},
+  "rtos_main.bat": {
+   "rtos_main": "rtos.json",
+   "at_tool": "rtos-at_tool.json",
+   "at_public": "rtos-at_public.json",
+   "at_private": "rtos-at_private.json"
+  },
+  "rtosdevice.bat": {},
+  "scrcpy-ui.bat": {},
+  "sel.bat": {},
+  "setmagisk.bat": {
+   "un": "setmagisk-un.json",
+   "install": "setmagisk-in.json"
+  },
+  "speedstart.bat": {},
+  "start.bat": {},
+  "super_recovery.bat": {
+   "super_rec_mode": "super_rec_mode.json",
+   "skippatch": "yesno.json"
+  },
+  "thank.bat": {},
+  "unapp.bat": {
+   "main_menu": "unapp.json"
+  },
+  "unmodule.bat": {},
+  "uplog.bat": {},
+  "userinstapp.bat": {
+   "main_menu": "userinstapp.json"
+  },
+  "userinstmodule.bat": {
+   "reboot": "yesno.json"
+  },
+  "userunmodule.bat": {
+   "reboot": "yesno.json"
+  },
+  "wifiadb.bat": {
+   "menu": "wifiadb.json"
+  },
+  "xtcpatch.bat": {},
+  "z10openinst.bat": {
+   "menu": "yesno.json"
+  }
+ }
+}
