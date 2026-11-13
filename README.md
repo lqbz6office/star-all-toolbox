@@ -75,6 +75,5 @@ bat 里的，`core/resources.py` 有兜底清单；1.4.6 起清单抽到了 `clo
 
 ## 致谢
 
-- **小公爵** —— 特别鸣谢
-- **xgj_236** —— AllToolBox 原作者，本项目的引擎与流程全部来自他的工作
+- **小公爵（xgj_236）** —— 特别鸣谢。AllToolBox 的作者，本项目的引擎与全部流程都来自他的工作
 - Magisk / topjohnwu、scrcpy、aria2、7-Zip、Qt/PyQt5

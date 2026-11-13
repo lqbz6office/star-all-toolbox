@@ -8,15 +8,19 @@
 """
 
 APP_NAME = "Star All Tool Box"
-APP_VER = "0.1.0"
-APP_VC = 1
+# 版本号只有一处来源:app/version.py。写两份必然对不上(关于页曾显示 0.1.0、
+# 检查更新却显示 1.0.0),所以这里直接读。
+try:                              # app/ 在 sys.path 里
+    from version import APP_VC, APP_VERSION as APP_VER
+except Exception:                 # 单独跑这个文件的兜底
+    APP_VER, APP_VC = "1.0.0", 1
 
 SPECIAL = [
-    ("小公爵", "特别鸣谢 —— 在这个项目从命令行走向图形界面的过程中给出的关键帮助"),
+    ("小公爵(xgj_236)", "特别鸣谢 —— AllToolBox 的作者,也是这个项目的引擎与全部流程的来源;"
+                        "从命令行走向图形界面的过程中给了关键帮助"),
 ]
 
 THANKS = [
-    ("xgj_236", "AllToolBox 原作者,本项目的引擎与流程来自他的 AllToolBox 1.2.7ultra"),
     ("Magisk / topjohnwu", "模块化与 boot 补丁方案"),
     ("scrcpy / Genymobile", "投屏组件"),
     ("aria2", "多线程下载引擎"),

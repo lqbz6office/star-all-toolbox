@@ -124,6 +124,19 @@ CATALOG = _build_catalog()          # [(key, 文件名, 显示名, 分组, 解�
 BY_KEY = {c[0]: c for c in CATALOG}
 
 
+ENGINE_VER_TXT = os.path.join(BIN, "settings", "versionuser.txt")
+
+
+def engine_version():
+    """引擎自己的版本号,直接读它写的 versionuser.txt(如 1.4.6.705)。
+
+    别在界面里写死 —— 换过引擎但忘了改文案,左下角就会一直显示旧版本。
+    """
+    v = _read(ENGINE_VER_TXT).strip().splitlines()
+    v = v[0].strip() if v else ""
+    return v or "未知"
+
+
 def base_url():
     for ln in _read(LINK_TXT).splitlines():
         ln = ln.strip()
@@ -257,23 +270,56 @@ def download(key, cb=None, extract=True):
         raise StarError("E2004", name)
 
     if extract:
-        if move and not move.lower().endswith(".zip"):
-            dest = os.path.join(BIN, move)
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-            if os.path.abspath(dest) != os.path.abspath(zpath):
-                os.replace(zpath, dest)
-            if cb:
-                cb("[资源] %s → %s" % (fname, move))
-        elif xdir is not None and not move:
-            out_dir = os.path.join(BIN, xdir) if xdir else BIN
-            os.makedirs(out_dir, exist_ok=True)
-            if cb:
-                cb("[资源] 解压 %s → %s" % (fname, xdir or "bin/"))
-            rc = _popen([os.path.join(BIN, "7z.exe"), "x", fname,
-                         "-o" + out_dir, "-aoa", "-bsp1"], cb)
-            if rc != 0:
-                raise StarError("E2005", "%s(7z 退出码 %s)" % (name, rc))
-        mark(fname)
+        place(key, cb)
+    if cb:
+        cb("[资源] %s 就绪" % name)
+    return zpath
+
+
+def place(key, cb=None):
+    """把下好的包放到它该去的位置(移动到 EDL\\xxx.zip / 解压到目录)。
+
+    ⚠ 原来这里写的是 `if move and not move.lower().endswith(".zip")` ——
+      而机型包的目标就是 `EDL\\I32.zip`,正好以 .zip 结尾 ⇒ 分支被跳过,
+      文件永远留在 bin 下,界面一直显示「已下载,点一下解压安装」,
+      再点一次又重下一遍。判断条件改成「只要 move 非空就搬」。
+    """
+    _k, fname, name, _g, xdir, move = BY_KEY[key]
+    zpath = os.path.join(BIN, fname)
+    if move:
+        dest = os.path.join(BIN, move)
+        d = os.path.dirname(dest)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        if os.path.abspath(dest) != os.path.abspath(zpath):
+            os.replace(zpath, dest)
+        if cb:
+            cb("[资源] %s → %s" % (fname, move))
+    elif xdir is not None:
+        out_dir = os.path.join(BIN, xdir) if xdir else BIN
+        os.makedirs(out_dir, exist_ok=True)
+        if cb:
+            cb("[资源] 解压 %s → %s" % (fname, xdir or "bin/"))
+        rc = _popen([os.path.join(BIN, "7z.exe"), "x", fname,
+                     "-o" + out_dir, "-aoa", "-bsp1"], cb)
+        if rc != 0:
+            raise StarError("E2005", "%s(7z 退出码 %s)" % (name, rc))
+    mark(fname)
+
+
+def install_zip(key, cb=None):
+    """本地已经有包了,只做安装/搬移 —— 不再联网重下一次。
+
+    UI 里「zip-only」状态点的就是这个:以前它又走 download(),用户会看到
+    进度条从头再跑一遍(几十 MB 白下)。
+    """
+    _k, fname, name, _g, _x, _m = BY_KEY[key]
+    zpath = os.path.join(BIN, fname)
+    if not os.path.isfile(zpath):
+        raise StarError("E2004", name)
+    if cb:
+        cb("[资源] 安装本地已有的 %s" % fname)
+    place(key, cb)
     if cb:
         cb("[资源] %s 就绪" % name)
     return zpath

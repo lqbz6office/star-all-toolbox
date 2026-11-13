@@ -15,10 +15,10 @@ import sys
 import time
 import traceback
 
-from PyQt5.QtCore import QProcess, QProcessEnvironment, QSize, Qt, QTimer
+from PyQt5.QtCore import QPoint, QProcess, QProcessEnvironment, QSize, Qt, QTimer
 from PyQt5.QtGui import QColor, QFont, QFontMetrics, QIcon, QPainter, QPixmap
 from PyQt5.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-                             QLineEdit, QMessageBox, QPlainTextEdit,
+                             QLineEdit, QMenu, QMessageBox, QPlainTextEdit,
                              QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
                              QVBoxLayout, QWidget)
 
@@ -428,7 +428,8 @@ class MainWindow(QWidget):
                 border-radius:9px; font-size:11px; padding:5px 11px; }
             QPushButton:hover { background: rgba(91,157,255,0.22); color:#fff; }
         """)
-        up.clicked.connect(self._check_update)
+        up.clicked.connect(self._update_menu)
+        self.up_btn = up
         tl.addWidget(up)
 
         for txt, fn in (("−", self.showMinimized), ("□", self._toggle_max), ("×", self.close)):
@@ -551,7 +552,8 @@ class MainWindow(QWidget):
         self._fill_nav()
 
     def _hint_label(self):
-        l = QLabel("引擎:AllToolBox 1.2.7ultra\nbin 未改动,仅替换菜单层")
+        # 版本别写死:换引擎后忘了改就一直在左下角显示旧版本(用户已经看到过一次)
+        l = QLabel("引擎:AllToolBox %s\nbin 未改动,仅替换菜单层" % resources.engine_version())
         l.setStyleSheet("color:rgba(255,255,255,0.24); font-size:9px; padding-left:8px;")
         return l
 
@@ -748,8 +750,8 @@ class MainWindow(QWidget):
             self._log("[资源] %s 已就位" % name)
             return
         if st == "zip-only":
-            self._log("[资源] 安装 %s" % fname)
-            self._bg(lambda cb: resources.download(key, cb), "res")
+            # 包已经在本地:只搬/解压,绝不重下(以前这里又走 download,几十 MB 白下)
+            self._bg(lambda cb: resources.install_zip(key, cb), "res")
             return
         if not self._confirm("下载资源 %s(约几十 MB)" % name):
             return
@@ -772,6 +774,9 @@ class MainWindow(QWidget):
                 st = resources.local_state(k)[0]
                 if st == "ok":
                     cb("[资源] %s 已就位,跳过" % resources.BY_KEY[k][2])
+                    continue
+                if st == "zip-only":
+                    resources.install_zip(k, cb)
                     continue
                 resources.download(k, cb)
 
@@ -1032,6 +1037,26 @@ class MainWindow(QWidget):
                                    "border:1px solid rgba(255,255,255,0.10);" % TEXT_DIM)
 
     # -- 更新 / 关于 / 错误
+    def _update_menu(self):
+        """顶栏「检查更新」:以前这里**直接查手表模块**的 update.json,
+        所以在工具里看到 3.0.4/vc35,很容易以为查的是工具自己。
+        现在给两个入口,谁也别猜。
+        """
+        m = QMenu(self)
+        m.setStyleSheet("QMenu{background:#1B1E25;border:1px solid rgba(255,255,255,0.12);"
+                        "border-radius:8px;padding:6px;}"
+                        "QMenu::item{color:#E9EDF5;padding:7px 24px;border-radius:6px;"
+                        "font-size:12px;}"
+                        "QMenu::item:selected{background:rgba(91,157,255,0.28);color:#fff;}")
+        a1 = m.addAction("检查工具更新(StarATB 本体)")
+        a2 = m.addAction("查看 Star OS 模块版本")
+        pos = self.up_btn.mapToGlobal(QPoint(0, self.up_btn.height() + 4))
+        act = m.exec_(pos)
+        if act == a1:
+            self._check_app_update()
+        elif act == a2:
+            self._check_update()
+
     def _check_app_update(self):
         """查 StarATB 自己 —— 以前这里查的是手表模块的 update.json,容易误会。"""
         from threading import Thread
