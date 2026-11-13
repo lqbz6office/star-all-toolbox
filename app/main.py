@@ -404,6 +404,20 @@ class MainWindow(QWidget):
         self._add_card("开发者平台",
                        "登录 / 上传模块 / 上传表盘 / 开发文档(原开发者平台整页)",
                        False, lambda: self._on_section("dev"))
+        # 1.4.6 新增:Root 安装选项 / 修补 boot / 超级恢复 / 运行命令
+        for menu, title, sub in (
+            ("root_setting_mode.json", "Root 安装选项",
+             "桌面版本 / XP 或 LSP 框架 / 面具类型 / root 后预装优化"),
+            ("scripttool-patchboot.json", "修补 boot",
+             "SDK25 / SDK27 / SDK27 狐狸面具,内置 patch_boot.exe"),
+            ("super_rec_mode.json", "超级恢复",
+             "自动下载固件包,或手动选择固件/超级恢复镜像"),
+            ("run_cmd.json", "运行命令",
+             "把手表当 shell 用,命令直接透传(带 adb 环境)"),
+        ):
+            if menu in self.data["menus"]:
+                self._add_card("新 · " + title, sub, False,
+                               lambda m=menu: self.goto_menu(m))
         for o in self.data["menus"].get("main.json", []):
             if o["hidden"]:
                 continue
