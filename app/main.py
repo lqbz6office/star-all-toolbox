@@ -224,7 +224,6 @@ class Card(QFrame):
         self._hover = False
         self._danger = danger
         self.setCursor(Qt.PointingHandCursor)
-        self.setFixedHeight(58)
         self._on_click = on_click
 
         lay = QHBoxLayout(self)
@@ -246,6 +245,12 @@ class Card(QFrame):
         arrow = QLabel("›")
         arrow.setStyleSheet("color:rgba(255,255,255,0.32); font-size:16px;")
         lay.addWidget(arrow)
+
+        # 高度按字体真实高度算(不是写死 58):系统缩放 125%/150% 时字号被放大,
+        # 写死的高度会让标题钻进副标题、两行叠在一起看不清。
+        need = max(t.sizeHint().height() + s.sizeHint().height() + 8,
+                   arrow.sizeHint().height() + 10, 58)
+        self.setFixedHeight(need)
 
     def enterEvent(self, e):
         self._hover = True
@@ -307,12 +312,18 @@ class MainWindow(QWidget):
         class _Sig(QObject):
             info = pyqtSignal(object)
             err = pyqtSignal(object)
+            # ⚠ 后台线程只准 emit,绝不准直接碰控件(碰了 Qt 直接 qFatal,连 traceback 都没有)
+            line = pyqtSignal(str)
+            after = pyqtSignal(object)
 
         self._sigs = _Sig()
         self._sigs.info.connect(self._on_update_info)
         self._sigs.err.connect(self.show_error)
+        self._sigs.line.connect(self._log)
+        self._sigs.after.connect(self._after_bg)
         self._sig_info = self._sigs.info
         self._sig_err = self._sigs.err
+        self._sig_line = self._sigs.line
         self._mode = "home"
         self._cur_menu = "main.json"
         self.data = json.load(open(ROUTES, encoding="utf-8"))
@@ -574,16 +585,23 @@ class MainWindow(QWidget):
             self._render_resources()
 
     def _clear_cards(self):
+        # ⚠ 必须 setParent(None)+hide:只 takeAt 的话旧卡片虽然不在布局里,
+        #   但仍然是 cards 的子控件,会留在原位继续重绘 —— 新卡片叠上去就成了「两层字叠印」。
+        #   deleteLater 要等下一轮事件循环,下载输出很密时能卡住好几秒。
         while self.card_box.count() > 1:
             it = self.card_box.takeAt(0)
-            if it.widget():
-                it.widget().deleteLater()
+            w = it.widget()
+            if w:
+                w.hide()
+                w.setParent(None)
+                w.deleteLater()
 
     def _add_card(self, title, sub, danger=False, fn=None, wide=False):
         c = Card(title, sub, danger, (lambda: fn()) if fn else None)
         if wide:
-            c.setMinimumHeight(64)
+            c.setFixedHeight(max(c.height(), 64))
         self.card_box.insertWidget(self.card_box.count() - 1, c)
+        c.show()          # 清空卡片后立即重建时,不显式 show 会闪一帧空白
         return c
 
     def _render_home(self):
@@ -636,6 +654,7 @@ class MainWindow(QWidget):
         l.setStyleSheet("color:%s; font-size:10px; letter-spacing:3px;"
                         "padding:10px 4px 2px 4px;" % TEXT_DIM)
         self.card_box.insertWidget(self.card_box.count() - 1, l)
+        l.show()
 
     def _render_library(self):
         self._clear_cards()
@@ -698,6 +717,29 @@ class MainWindow(QWidget):
             self._add_card(cn, "%s · %s" % (why, tail), False,
                            lambda k=key: self._download_res(k))
 
+    # ---- 后台任务:所有界面操作一律排队回主线程 ----
+    def _bg(self, job, after=None):
+        """在工作线程跑 job(cb):cb 是安全的行回调,收尾(after)也回主线程执行。
+
+        ⚠ 这是唯一允许的跨线程方式。直接在线程里 appendPlainText / 加卡片,
+          PyQt5 会 qFatal 秒退(无 traceback、boot.log 里什么都留不下)。
+        """
+        def fin(err):
+            if err:
+                self._sig_err.emit(err)
+            if after:
+                self._sigs.after.emit(after)
+
+        resources.run_async(job, self._sig_line.emit, fin)
+
+    def _after_bg(self, what):
+        if what == "res":
+            self._render_resources()
+        elif what == "home":
+            self._on_section("home")
+        elif what == "refresh":
+            self._on_section(self._mode)
+
     def _download_res(self, key):
         key = key[0] if isinstance(key, (list, tuple)) else key
         _k, fname, name, _g, xdir, move = resources.BY_KEY[key]
@@ -707,10 +749,7 @@ class MainWindow(QWidget):
             return
         if st == "zip-only":
             self._log("[资源] 安装 %s" % fname)
-            resources.run_async(lambda cb: resources.download(key, cb),
-                                self._log,
-                                lambda e: (self.show_error(e) if e else None,
-                                           self._render_resources()))
+            self._bg(lambda cb: resources.download(key, cb), "res")
             return
         if not self._confirm("下载资源 %s(约几十 MB)" % name):
             return
@@ -720,12 +759,7 @@ class MainWindow(QWidget):
         def job(cb):
             resources.download(key, cb)
 
-        def fin(err):
-            if err:
-                self.show_error(err)
-            self._render_resources()
-
-        resources.run_async(job, self._log, fin)
+        self._bg(job, "res")
 
     def _download_many(self, keys, label):
         if not self._confirm("下载「%s」需要的 %d 个资源" % (label, len(keys))):
@@ -741,12 +775,7 @@ class MainWindow(QWidget):
                     continue
                 resources.download(k, cb)
 
-        def fin(err):
-            if err:
-                self.show_error(err)
-            self._render_resources()
-
-        resources.run_async(job, self._log, fin)
+        self._bg(job, "res")
 
     def _install_staros(self, online):
         if not self._confirm("安装最新版 Star OS 到已连接的手表"):
@@ -759,14 +788,9 @@ class MainWindow(QWidget):
                 staros.install_online(cb)
             else:
                 staros.install(cb)
+            cb("[StarOS] 完成,建议重启手表")
 
-        def fin(err):
-            if err:
-                self.show_error(err)
-            else:
-                self._log("[StarOS] 完成,建议重启手表")
-
-        resources.run_async(job, self._log, fin)
+        self._bg(job, "home")
 
     def _open_dev(self):
         self.stack.setCurrentIndex(1)
@@ -806,10 +830,7 @@ class MainWindow(QWidget):
         self.title.setText(os.path.splitext(name)[0])
         n = len([o for o in self.data["menus"][name] if not o["hidden"]])
         self.sub.setText("%d 个功能 · 来源 %s" % (n, src or "—"))
-        while self.card_box.count() > 1:
-            it = self.card_box.takeAt(0)
-            if it.widget():
-                it.widget().deleteLater()
+        self._clear_cards()
         for o in self.data["menus"][name]:
             if o["hidden"]:
                 continue
@@ -847,10 +868,7 @@ class MainWindow(QWidget):
             return
         self.title.setText("搜索 “%s”" % text)
         self.sub.setText("跨 40 个菜单匹配")
-        while self.card_box.count() > 1:
-            it = self.card_box.takeAt(0)
-            if it.widget():
-                it.widget().deleteLater()
+        self._clear_cards()
         hit = 0
         for m, opts in self.data["menus"].items():
             for o in opts:
@@ -869,6 +887,7 @@ class MainWindow(QWidget):
             l = QLabel("没有匹配的功能")
             l.setStyleSheet("color:%s; padding:12px;" % TEXT_DIM)
             self.card_box.insertWidget(self.card_box.count() - 1, l)
+        l.show()
 
     # -- 执行
     def _run(self, act, label, value=""):
@@ -1234,6 +1253,34 @@ def preflight():
     return admin
 
 
+def _single_instance_gate(app):
+    """只允许一个窗口。已有实例就把它的窗口抬到前面,然后本进程退出。
+
+    ⚠ 用户双击两次(或上次没关干净)时,两个一模一样的窗口叠在一起,
+      看起来就像「文字两层叠印」——比任何排版 bug 都更容易被当成界面坏了。
+    返回 (is_first, server)。
+    """
+    try:
+        from PyQt5.QtNetwork import QLocalServer, QLocalSocket
+    except Exception:
+        return True, None
+    key = "StarATB-single"
+    sock = QLocalSocket()
+    sock.connectToServer(key)
+    if sock.waitForConnected(150):
+        sock.write(b"show")
+        sock.flush()
+        sock.waitForBytesWritten(300)
+        sock.disconnectFromServer()
+        _log("已有实例在运行,已叫它到前台,本进程退出")
+        return False, None
+    QLocalServer.removeServer(key)
+    srv = QLocalServer()
+    srv.listen(key)
+    _log("单实例锁已建立")
+    return True, srv
+
+
 def main():
     global ADMIN
     _log("---- 启动 pid=%s argv=%s" % (os.getpid(), sys.argv))
@@ -1250,6 +1297,17 @@ def main():
     app = QApplication(sys.argv)
     app.setFont(QFont("Microsoft YaHei UI", 9))
     _log("Qt 已起,版本 %s" % app.applicationVersion() or "-")
+
+    first, srv = _single_instance_gate(app)
+    if not first:
+        # 已有实例:照样告诉启动器「这次启动被正常处理了」,不然 bat 会白等 20 秒再报错
+        try:
+            with open(FLAG, "w", encoding="utf-8") as f:
+                f.write("already-running")
+        except Exception:
+            pass
+        return
+
     try:
         ADMIN = bool(preflight())
     except StarError as e:
@@ -1258,6 +1316,21 @@ def main():
     w = MainWindow()
     w.show()
     _log("窗口已显示(自本模块导入起 %.2fs)" % (time.perf_counter() - _T0))
+
+    if srv is not None:
+        def on_conn():
+            while srv.hasPendingConnections():
+                c = srv.nextPendingConnection()
+                if c:
+                    c.waitForReadyRead(100)
+                    c.readAll()
+                    c.disconnectFromServer()
+                w.showNormal()
+                w.raise_()
+                w.activateWindow()
+
+        srv.newConnection.connect(on_conn)
+
     try:
         with open(FLAG, "w", encoding="utf-8") as f:
             f.write(str(os.getpid()))
