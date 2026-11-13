@@ -65,10 +65,19 @@ def parse_bat(path):
             continue
         if cur is None:
             continue
-        m = re.match(r'\s*if\s+(?:/i\s+)?"%MENU%"=="([^"]+)"\s*(.*)$', ln, re.I)
+        # 分发写法有三种,都要认:
+        #   if "%MENU%"=="1"  call X
+        #   if "%menu%"=="Z2" goto Y          (变量名大小写不一)
+        #   if %MENU%==1                      (不带引号)
+        #   if "%%i"=="Z2"  /  if %%i==1      (for %%i in (%menu) 循环里)
+        m = re.match(r'\s*if\s+(?:/i\s+)?(?:not\s+)?'
+                     r'(?:"%\w+%"|%\w+%|"%%\w"|%%\w)\s*==\s*'
+                     r'(?:"([^"]*)"|(\S+))\s*(.*)$', ln, re.I)
         if m:
-            key, rest = m.group(1), m.group(2).strip()
-            found[cur][key] = rest
+            key = (m.group(1) or m.group(2) or "").strip()
+            rest = (m.group(3) or "").strip()
+            if key:
+                found[cur][key] = rest
     return found, sections
 
 

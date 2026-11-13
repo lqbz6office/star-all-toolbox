@@ -2266,6 +2266,53 @@
   ]
  },
  "routes": {
+  "yesno.json": {
+   "y": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "modid": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "modname": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "modversion": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "modversioncode": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "modtype": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "n": {
+    "kind": "goto",
+    "target": "settings",
+    "raw": "goto settings"
+   },
+   "A": {
+    "kind": "goto",
+    "target": "settings",
+    "raw": "goto settings"
+   },
+   "S": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   }
+  },
   "backup.json": {
    "A": {
     "kind": "none",
@@ -2278,9 +2325,9 @@
     "raw": "exit /b"
    },
    "1": {
-    "kind": "goto",
-    "target": "DCIM-backup",
-    "raw": "goto DCIM-backup"
+    "kind": "none",
+    "target": "",
+    "raw": "("
    },
    "2": {
     "kind": "goto",
@@ -2306,6 +2353,11 @@
     "kind": "goto",
     "target": "adb-dd-recover",
     "raw": "goto adb-dd-recover"
+   },
+   "0": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
    }
   },
   "backup_9008.json": {
@@ -2315,9 +2367,9 @@
     "raw": "goto MAIN_MENU"
    },
    "1": {
-    "kind": "goto",
-    "target": "9008-backup-run",
-    "raw": "set innermodel=I13C&&set v3=0&&goto 9008-backup-run"
+    "kind": "none",
+    "target": "",
+    "raw": "("
    },
    "2": {
     "kind": "goto",
@@ -2809,18 +2861,38 @@
     "kind": "none",
     "target": "",
     "raw": "exit /b"
+   },
+   "模块名": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"mod_name=%%b\""
+   },
+   "版本号": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"mod_ver=%%b\""
+   },
+   "作者": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"mod_author=%%b\""
+   },
+   "支持型号": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"mod_models=%%b\""
    }
   },
   "ota_mode.json": {
    "A": {
-    "kind": "none",
-    "target": "",
-    "raw": "exit /b"
+    "kind": "goto",
+    "target": "ota_mode",
+    "raw": "goto ota_mode"
    },
    "1": {
-    "kind": "goto",
-    "target": "get_ota",
-    "raw": "goto get_ota"
+    "kind": "none",
+    "target": "",
+    "raw": "("
    },
    "2": {
     "kind": "goto",
@@ -2831,6 +2903,36 @@
     "kind": "goto",
     "target": "qmmi",
     "raw": "goto qmmi"
+   },
+   "S": {
+    "kind": "goto",
+    "target": "customize_ota",
+    "raw": "goto customize_ota"
+   },
+   "ND03": {
+    "kind": "goto",
+    "target": "vabota",
+    "raw": "goto vabota"
+   },
+   "ND08": {
+    "kind": "goto",
+    "target": "vabota",
+    "raw": "goto vabota"
+   },
+   "ND10": {
+    "kind": "goto",
+    "target": "vabota",
+    "raw": "goto vabota"
+   },
+   "ND11": {
+    "kind": "goto",
+    "target": "vabota",
+    "raw": "goto vabota"
+   },
+   "ND12": {
+    "kind": "goto",
+    "target": "vabota",
+    "raw": "goto vabota"
    }
   },
   "ota.json": {
@@ -3007,6 +3109,58 @@
     "kind": "goto",
     "target": "fastbootd_menu",
     "raw": "set \"mode=fastbootd\" & goto fastbootd_menu"
+   },
+   "qcom_edl": {
+    "kind": "goto",
+    "target": "rebootP-reboot-edl",
+    "raw": "goto rebootP-reboot-edl"
+   },
+   "adb": {
+    "kind": "none",
+    "target": "",
+    "raw": "adb reboot"
+   },
+   "fastboot": {
+    "kind": "none",
+    "target": "",
+    "raw": "fastboot reboot"
+   }
+  },
+  "rebootpro_edl.json": {
+   "A": {
+    "kind": "goto",
+    "target": "rebootP",
+    "raw": "goto rebootP"
+   },
+   "1": {
+    "kind": "goto",
+    "target": "rebootP-reboot-edl-run",
+    "raw": "set \"whatmbn=msm8937.mbn\" & goto rebootP-reboot-edl-run"
+   },
+   "2": {
+    "kind": "goto",
+    "target": "rebootP-reboot-edl-run",
+    "raw": "set \"whatmbn=msm8909w.mbn\" & goto rebootP-reboot-edl-run"
+   },
+   "3": {
+    "kind": "goto",
+    "target": "rebootP-reboot-edl-run",
+    "raw": "set \"whatmbn=prog_firehose_ddr.elf\" & goto rebootP-reboot-edl-run"
+   },
+   "4": {
+    "kind": "goto",
+    "target": "rebootP-reboot-edl-noQS",
+    "raw": "goto rebootP-reboot-edl-noQS"
+   },
+   "adb": {
+    "kind": "none",
+    "target": "",
+    "raw": "adb reboot recovery"
+   },
+   "fastboot": {
+    "kind": "goto",
+    "target": "rebootP-re-bl",
+    "raw": "goto rebootP-re-bl"
    }
   },
   "rebtwrp.json": {
@@ -3089,6 +3243,16 @@
     "kind": "none",
     "target": "",
     "raw": "set \"innermodel=ND08\""
+   },
+   "adb": {
+    "kind": "goto",
+    "target": "rebootP-twrp-bl",
+    "raw": "adb reboot bootloader & goto rebootP-twrp-bl"
+   },
+   "fastboot": {
+    "kind": "goto",
+    "target": "rebootP-twrp-bl",
+    "raw": "goto rebootP-twrp-bl"
    }
   },
   "qmmi.json": {
@@ -3178,6 +3342,38 @@
     "kind": "none",
     "target": "",
     "raw": "set \"innermodel=ND08\" & set \"platform=z10\""
+   },
+   "z10": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "ffbm": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "adb": {
+    "kind": "none",
+    "target": "",
+    "raw": "adb reboot edl"
+   }
+  },
+  "root-SDK25.json": {
+   "1": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "2": {
+    "kind": "goto",
+    "target": "ROOT-SDK25-2",
+    "raw": "goto ROOT-SDK25-2&&set /p=\"%recorroot%\" <nul > recorroot.txt"
+   },
+   "0": {
+    "kind": "goto",
+    "target": "have_magisk",
+    "raw": "goto have_magisk"
    }
   },
   "root.json": {
@@ -3202,9 +3398,9 @@
     "raw": "call rebootpro qmmi v3pash I25D && goto EDL_run"
    },
    "11": {
-    "kind": "call",
-    "target": "rebootpro",
-    "raw": "call rebootpro qmmi v3pash I32 && goto EDL_run"
+    "kind": "none",
+    "target": "",
+    "raw": "("
    },
    "12": {
     "kind": "call",
@@ -3227,9 +3423,9 @@
     "raw": "call :info \"ND08\" \"Z11\" \"30\" \"11\" && goto skipgetinfo"
    },
    "1": {
-    "kind": "call",
-    "target": "rebootpro",
-    "raw": "call rebootpro wipe otherpash I12 && goto other_edl"
+    "kind": "none",
+    "target": "",
+    "raw": "ECHO.%GREEN%你的手表是V3版本%RESET%"
    },
    "2": {
     "kind": "call",
@@ -3255,6 +3451,36 @@
     "kind": "call",
     "target": "rebootpro",
     "raw": "call rebootpro wipe otherpash I18 && goto other_edl"
+   },
+   "I25C": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "0": {
+    "kind": "none",
+    "target": "",
+    "raw": "ECHO.%GREEN%你的手表不是V3版本%RESET%"
+   },
+   "19": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "25": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "27": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
+   },
+   "30": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
    }
   },
   "backup_DCIM.json": {
@@ -3340,13 +3566,18 @@
     "kind": "call",
     "target": ":setconf",
     "raw": "call :setconf root sukisu"
+   },
+   "!key!": {
+    "kind": "none",
+    "target": "",
+    "raw": "set \"value=%%b\""
    }
   },
   "rtos.json": {
    "A": {
-    "kind": "none",
-    "target": "",
-    "raw": "exit /b"
+    "kind": "goto",
+    "target": ":rtos_main",
+    "raw": "goto :rtos_main"
    },
    "1": {
     "kind": "goto",
@@ -3402,6 +3633,11 @@
     "kind": "goto",
     "target": ":app_store_switch",
     "raw": "goto :app_store_switch"
+   },
+   "0": {
+    "kind": "goto",
+    "target": ":rtos_main",
+    "raw": "goto :rtos_main"
    }
   },
   "rtos-at_tool.json": {
@@ -3584,6 +3820,11 @@
     "kind": "goto",
     "target": "manual",
     "raw": "goto manual"
+   },
+   "data": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
    }
   },
   "unapp.json": {
@@ -3611,6 +3852,11 @@
     "kind": "goto",
     "target": "UNINSTALL",
     "raw": "goto UNINSTALL"
+   },
+   "y": {
+    "kind": "none",
+    "target": "",
+    "raw": "("
    }
   },
   "userinstapp.json": {
@@ -3685,10 +3931,16 @@
     "kind": "goto",
     "target": "close_wireless",
     "raw": "goto close_wireless"
+   },
+   "20": {
+    "kind": "none",
+    "target": "",
+    "raw": "echo %error%查找IP地址失败%RESET% && pause.exe && exit /b"
    }
   }
  },
  "sources": {
+  "yesno.json": "Loadatbmod.bat",
   "backup.json": "backup.bat",
   "backup_9008.json": "backup.bat",
   "main.json": "main.bat",
@@ -3708,9 +3960,11 @@
   "ota.json": "ota.bat",
   "pashtwrp.json": "pashtwrp.bat",
   "rebootpro.json": "rebootpro.bat",
+  "rebootpro_edl.json": "rebootpro.bat",
   "rebtwrp.json": "rebootpro.bat",
   "qmmi.json": "rebootpro.bat",
   "A11.json": "rebootpro.bat",
+  "root-SDK25.json": "root-SDK25.bat",
   "root.json": "root.bat",
   "backup_DCIM.json": "root_setting.bat",
   "root_setting_rootpro.json": "root_setting.bat",

@@ -327,6 +327,19 @@ class MainWindow(QWidget):
         bar.addWidget(self.stop_btn)
         right.addLayout(bar)
 
+        self.stdin = QLineEdit()
+        self.stdin.setPlaceholderText("输入给命令的内容,回车发送…")
+        self.stdin.setFixedWidth(392)
+        self.stdin.returnPressed.connect(self._send_stdin)
+        self.stdin.setEnabled(False)
+        self.stdin.setStyleSheet("""
+            QLineEdit { background: rgba(255,255,255,0.05); color:#C3CDE0;
+                border:1px solid rgba(255,255,255,0.08); border-radius:10px;
+                padding:6px 10px; font-size:11px; }
+            QLineEdit:disabled { color: rgba(255,255,255,0.25); }
+        """)
+        right.addWidget(self.stdin)
+
         self.log = QPlainTextEdit()
         self.log.setReadOnly(True)
         self.log.setFixedWidth(392)
@@ -635,7 +648,8 @@ class MainWindow(QWidget):
         src = self.data["sources"].get(self._cur_menu, "")
         line = runner.build(self._cur_menu, value, act, src)
         if not line:
-            self._log("[未接入] %s —— 该条目的动作无法还原" % label)
+            self._log("[不可直连] %s —— 这一项属于上层流程里的子步骤,"
+                      "请从对应父菜单进入" % label)
             return
         if any(w in label.lower() for w in DANGER_WORDS):
             if not self._confirm(label):
@@ -678,6 +692,8 @@ class MainWindow(QWidget):
         p.start("cmd", ["/c", line])
         self._proc = p
         self.stop_btn.setEnabled(True)
+        self.stdin.setEnabled(True)
+        self.stdin.setFocus()
 
     def _drain(self, p):
         raw = bytes(p.readAllStandardOutput())
@@ -692,6 +708,7 @@ class MainWindow(QWidget):
         self._log("■ 结束 (exit %d)" % code)
         self._proc = None
         self.stop_btn.setEnabled(False)
+        self.stdin.setEnabled(False)
         self._poll_device()
 
     def _kill(self):
@@ -699,7 +716,16 @@ class MainWindow(QWidget):
             self._proc.kill()
             self._proc = None
             self.stop_btn.setEnabled(False)
+            self.stdin.setEnabled(False)
             self._log("■ 已中止")
+
+    def _send_stdin(self):
+        if not self._proc:
+            return
+        text = self.stdin.text()
+        self.stdin.clear()
+        self._proc.write((text + "\r\n").encode("gbk", "replace"))
+        self._log("→ " + text)
 
     def _log(self, s):
         self.log.appendPlainText(s)
@@ -796,6 +822,16 @@ class MainWindow(QWidget):
     # -- 窗口行为
     def _toggle_max(self):
         self.showNormal() if self.isMaximized() else self.showMaximized()
+
+    def closeEvent(self, e):
+        # ⚠ 关窗时先收掉子进程:QProcess 活着被析构会 qFatal,进程无声退出(exit 127)
+        try:
+            if self._proc:
+                self._proc.kill()
+                self._proc.waitForFinished(2000)
+        except Exception:
+            pass
+        super(MainWindow, self).closeEvent(e)
 
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton and e.pos().y() < 60:
