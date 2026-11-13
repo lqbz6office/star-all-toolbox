@@ -77,3 +77,39 @@ bat 里的，`core/resources.py` 有兜底清单；1.4.6 起清单抽到了 `clo
 
 - **小公爵（xgj_236）** —— 特别鸣谢。AllToolBox 的作者，本项目的引擎与全部流程都来自他的工作
 - Magisk / topjohnwu、scrcpy、aria2、7-Zip、Qt/PyQt5
+
+## 向导接管(menu.exe / pause.exe 替身)
+
+引擎的每个 bat 都靠两个 exe 和用户对话:
+
+```bat
+del /Q menutmp.txt
+menu.exe .\menu\xxx.json        :: 画菜单、按键、把 value 写进 menutmp.txt
+set /p MENU=<menutmp.txt
+pause.exe                       :: 等任意键(全文 260 多处)
+```
+
+原版 `menu.exe` 的 stdout 一旦是管道就**整块缓冲**(菜单要等进程退出才吐出来),
+`pause.exe` 更是什么都不打印地阻塞。所以早期版本只能"把输出贴到窗口里让你盲打字"。
+
+现在 `bin\menu.exe` 与 `bin\pause.exe` 都是 `menu_shim.py` 编译出来的替身:
+
+| 情况 | 行为 |
+|---|---|
+| 界面在跑(`STARATB_MENU_GUI=1`) | 读 json → 写 `bin\_gui\req.txt` → 界面弹出按钮 → 点击写 `_gui\ans.txt` → 替身把 value 写进 `menutmp.txt` |
+| `pause.exe` | 同上,界面显示「继续」并 0.4 秒后自动点掉(等价于原版敲任意键) |
+| 脱离界面(命令行) | 退回原版行为:打印编号 + 从 stdin 读一行 |
+| `-s` 多选 / 其他开关 | 脱离界面时交给 `menu_engine.exe` 原版;界面里按单选处理(不会卡死) |
+
+原版可执行文件都留着:`bin\menu_engine.exe`、`bin\pause_engine.exe`。
+**换引擎版本时要把这两个替身重新装回去**,否则又会回到"点了没反应"。
+
+重新编译替身:
+
+```bat
+.venv\Scripts\pyinstaller.exe --noconfirm --onedir --console --name menu ^
+  --contents-directory _menu_rt --distpath build_menu\dist menu_shim.py
+copy build_menu\dist\menu\menu.exe  StarATB\bin\menu.exe
+copy build_menu\dist\menu\menu.exe  StarATB\bin\pause.exe
+xcopy /E /I /Y build_menu\dist\menu\_menu_rt StarATB\bin\_menu_rt
+```

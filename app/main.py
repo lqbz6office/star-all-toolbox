@@ -8,6 +8,7 @@
 
 危险动作(Root / 刷机 / 抹机 / EDL)二次确认。
 """
+import io
 import json
 import os
 import re
@@ -41,6 +42,10 @@ LOGDIR = os.path.join(ROOT, "logs")
 BOOTLOG = os.path.join(LOGDIR, "boot.log")
 FLAG = os.path.join(LOGDIR, "started.flag")
 RUNBAT = os.path.join(LOGDIR, "_run.bat")
+# menu.exe 替身与界面之间传话用的两个文件(见 menu_shim.py)
+GUI_DIR = os.path.join(BIN, "_gui")
+MENU_REQ = os.path.join(GUI_DIR, "req.txt")
+MENU_ANS = os.path.join(GUI_DIR, "ans.txt")
 GEOM = os.path.join(ROOT, "ui.json")
 ADMIN = False
 _T0 = time.perf_counter()   # 本模块开始导入的时刻,用来算启动耗时
@@ -80,6 +85,24 @@ def _die(title, why, tb_text=""):
 DANGER_WORDS = ("root", "刷", "edl", "9008", "抹", "格式化", "清空", "解bl",
                 "twrp", "recovery", "降级", "wipe", "erase", "patch")
 ANSI = re.compile(r"\x1b\[[0-9;?]*[a-zA-Z]|\x1b\][^\x07]*\x07")
+
+# 引擎向导的三类信号(实测 menu.exe 的原始输出,见 2026-11-13 日志):
+#   "  1. 是\r\n  2. 否\r\n选择: "   ← 选项行 + 无换行的「选择: 」
+#   "请按任意键继续..."              ← pause,要敲回车
+_OPT_LINE = re.compile(r"^(\d{1,3})[.、)]\s*(\S.*)$")
+_LOOKS_PROMPT = re.compile(r"(选择|請選擇|请输入|請輸入)\s*[:：]?\s*$")
+_ANYKEY = re.compile(r"(按任意键|按任意鍵|press any key)")
+
+
+def _dec(b):
+    """bat 打 GBK、progress.exe 打 UTF-8,同一股流里混着。逐行试,别整体猜。"""
+    for enc in ("utf-8", "gbk"):
+        try:
+            return b.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return b.decode("gbk", "replace")
+
 
 # ---------------------------------------------------------------- 中文名表
 # 引擎的菜单名是 A11 / appset / backup_9008 这种 bat 文件名,条目来源是 xxx.bat。
@@ -307,6 +330,14 @@ class MainWindow(QWidget):
 
         self._drag = None
         self._proc = None
+        # 引擎向导状态:menu.exe 会把选项打成「  1. xxx」再打「选择: 」然后阻塞等 stdin。
+        # 我们把它解析成按钮(见 _feed_menu_line),点一下就把按键写回管道。
+        self._carry_raw = b""      # 未等到换行的半行(选择提示就是没有换行的)
+        self._opts = []            # 当前菜单的 [(序号, 文字)]
+        self._menu_on = False      # 是否已经把这个菜单做成按钮
+        self._last_token = ""      # 已处理的向导请求号,防止同一菜单反复弹
+        self._last_req_mtime = 0.0
+        self._choice_token = ""
         from PyQt5.QtCore import QObject, pyqtSignal
 
         class _Sig(QObject):
@@ -523,6 +554,20 @@ class MainWindow(QWidget):
         self.stop_btn.clicked.connect(self._kill)
         bar.addWidget(self.stop_btn)
         right.addLayout(bar)
+
+        # 引擎向导的「选择」区 —— 引擎弹选项时这里长出按钮,不用再手打数字
+        self.choice_host = QWidget()
+        self.choice_host.setFixedWidth(330)
+        self.choice_lay = QVBoxLayout(self.choice_host)
+        self.choice_lay.setContentsMargins(0, 0, 0, 0)
+        self.choice_lay.setSpacing(6)
+        self.choice_host.setVisible(False)
+        right.addWidget(self.choice_host)
+        # 每 120ms 看一眼引擎有没有新菜单要问 —— 替身阻塞等我们写答案
+        self._menu_timer = QTimer(self)
+        self._menu_timer.setInterval(120)
+        self._menu_timer.timeout.connect(self._poll_menu_req)
+        self._menu_timer.start()
 
         self.stdin = QLineEdit()
         self.stdin.setPlaceholderText("输入给命令的内容,回车发送…")
@@ -952,11 +997,26 @@ class MainWindow(QWidget):
         env = QProcessEnvironment.systemEnvironment()
         env.insert("PATH", BIN + ";" + env.value("PATH", ""))
         env.insert("PYTHONIOENCODING", "gbk")
+        env.insert("STARATB_MENU_GUI", "1")   # 让 menu.exe 替身走界面通道
         p.setProcessEnvironment(env)
         p.setProcessChannelMode(QProcess.MergedChannels)
         p.readyReadStandardOutput.connect(lambda: self._drain(p))
         p.finished.connect(lambda c, s: self._done(c))
         p.errorOccurred.connect(lambda e: self._log("[启动失败] %s" % e))
+        # 换任务 ⇒ 上一个向导的候选/按钮全部作废
+        self._opts = []
+        self._carry_raw = b""
+        self._last_token = ""
+        self._last_req_mtime = 0.0
+        self._choice_token = ""
+        self._hide_choices()
+        try:
+            os.makedirs(GUI_DIR, exist_ok=True)
+            for f in (MENU_REQ, MENU_ANS):
+                if os.path.exists(f):
+                    os.remove(f)
+        except Exception:
+            pass
         p.start("cmd", ["/c", RUNBAT])
         self._proc = p
         self.stop_btn.setEnabled(True)
@@ -966,25 +1026,181 @@ class MainWindow(QWidget):
     def _drain(self, p):
         # 引擎里 bat 是 GBK 编码、progress.exe 输出的是 UTF-8,同一股流里混着来。
         # 按行各自判断编码,才不会出现「姝 e 漆锷犳祰」这种火星文。
-        raw = bytes(p.readAllStandardOutput())
-        for bline in re.split(rb"\r\n|\n|\r", raw):
+        raw = self._carry_raw + bytes(p.readAllStandardOutput())
+        blines = re.split(rb"\r\n|\n|\r", raw)
+        self._carry_raw = blines.pop() if blines else b""
+        for bline in blines:
             if not bline.strip():
                 continue
-            for enc in ("utf-8", "gbk"):
-                try:
-                    ln = bline.decode(enc)
-                    break
-                except UnicodeDecodeError:
-                    ln = None
-            if ln is None:
-                ln = bline.decode("gbk", "replace")
+            ln = _dec(bline).rstrip()
             ln = ANSI.sub("", ln).rstrip()
             if ln:
                 self._log(ln)
+                self._feed_menu_line(ln)
+        # menu.exe 打「选择: 」时**不带换行**,所以这一行永远留在 carry 里等不到 \r\n。
+        # 不主动看它,按钮就永远出不来 —— 这就是「点了没反应」的真正原因。
+        tail = self._carry_raw.strip()
+        if tail:
+            ln = ANSI.sub("", _dec(self._carry_raw)).strip()
+            if _LOOKS_PROMPT.search(ln):
+                self._log(ln)
+                self._carry_raw = b""
+                self._feed_menu_line(ln)
+
+    # -- 把引擎的文本菜单变成按钮 ----------------------------------------
+    def _feed_menu_line(self, ln):
+        s = ln.strip()
+        m = _OPT_LINE.match(s)
+        if m:
+            num, label = m.group(1), m.group(2).strip()
+            for i, (n0, l0) in enumerate(self._opts):
+                if n0 == num:
+                    if l0 != label:        # 同一序号换了文字 ⇒ 是另一个菜单,重来
+                        self._opts = [(num, label)]
+                    return
+            self._opts.append((num, label))
+            return
+        if not s:
+            return
+        if _ANYKEY.search(s):
+            # 原版这里是「请按任意键继续」,要敲一下回车 —— 自动敲,并留一行记录
+            self._send_raw("")
+            return
+        if _LOOKS_PROMPT.search(s):
+            if self._opts:
+                self._show_choices(s, list(self._opts))
+            else:
+                # 没有选项的输入提示(如「请输入机型」)⇒ 直接把焦点给输入框
+                self._hint_stdin(s)
+            return
+
+    def _hint_stdin(self, prompt):
+        if not self._proc:
+            return
+        self.stdin.setEnabled(True)
+        self.stdin.setFocus()
+        self.stdin.setPlaceholderText(prompt[:24])
+
+    def _show_choices(self, prompt, opts, mode="num", token=""):
+        """opts: [(key, label)]。mode=num 走 stdin 敲数字,mode=val 写给 menu.exe 替身。"""
+        if not self._proc:
+            return
+        self._menu_on = True
+        self._opts = []
+        self._choice_token = token
+        while self.choice_lay.count():
+            it = self.choice_lay.takeAt(0)
+            w = it.widget()
+            if w:
+                w.hide()
+                w.setParent(None)
+                w.deleteLater()
+        head = QLabel(prompt.rstrip(": ：") or "请选择")
+        head.setStyleSheet("color:#FFD08A; font-size:11px; padding-left:2px;")
+        head.setWordWrap(True)
+        self.choice_lay.addWidget(head)
+        for i, (key, label) in enumerate(opts, 1):
+            b = QPushButton(("%d   %s" % (i, label)) if mode != "num" else ("%s   %s" % (key, label)))
+            b.setCursor(Qt.PointingHandCursor)
+            b.setToolTip(label)
+            b.setStyleSheet("""
+                QPushButton { background: rgba(120,170,255,0.16); color:#DCE6FA; border:none;
+                    border-radius:9px; padding:8px 11px; font-size:11px; text-align:left; }
+                QPushButton:hover { background: rgba(120,170,255,0.34); }
+                QPushButton:pressed { background: rgba(120,170,255,0.5); }
+            """)
+            b.clicked.connect(lambda _=False, k=key: self._pick(k, mode))
+            self.choice_lay.addWidget(b)
+        self.choice_host.setVisible(True)
+        self.stdin.setPlaceholderText("也可以直接输入后回车…")
+
+    def _pick(self, key, mode="num"):
+        self._hide_choices()
+        if mode == "val":
+            self._answer_menu(key)
+        else:
+            self._send_raw(str(key))
+
+    def _answer_menu(self, value):
+        """把选择写给 menu.exe 替身(它阻塞在 _gui\\req.txt 对应的答案上)。"""
+        if not self._choice_token:
+            self._send_raw(str(value))
+            return
+        try:
+            tmp = MENU_ANS + ".tmp"
+            with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+                f.write("%s\n%s\n" % (self._choice_token, value))
+            os.replace(tmp, MENU_ANS)
+            self._log("→ 选择 %s" % value)
+        except Exception as e:
+            self._log("[回传失败] %s" % e)
+
+    def _poll_menu_req(self):
+        """menu.exe 替身把选项写进 _gui\\req.txt,这里读出来做成按钮。"""
+        if not self._proc:
+            return
+        try:
+            mtime = os.path.getmtime(MENU_REQ)
+        except OSError:
+            return
+        if mtime == self._last_req_mtime:
+            return
+        try:
+            lines = io.open(MENU_REQ, encoding="utf-8", errors="replace").read().split("\n")
+        except Exception:
+            return
+        if len(lines) < 3:
+            return
+        token, title = lines[0].strip(), lines[1].strip()
+        if token == self._last_token:
+            return
+        self._last_req_mtime = mtime
+        self._last_token = token
+        opts = []
+        for ln in lines[2:]:
+            if not ln.strip():
+                continue
+            v, _, lb = ln.partition("\t")
+            opts.append((v, lb or v))
+        if title == "__PAUSE__":
+            # 引擎的 pause.exe:显示一个「继续」,0.4 秒后自动点掉(相当于原版敲任意键)
+            self._show_choices("继续", opts, "val", token)
+            QTimer.singleShot(400, lambda t=token: self._auto_continue(t))
+            return
+        if opts:
+            self._show_choices(title or "请选择", opts, "val", token)
+
+    def _auto_continue(self, token):
+        if self._choice_token == token and self._proc:
+            self._pick("ok", "val")
+
+    def _hide_choices(self):
+        self._menu_on = False
+        self.choice_host.setVisible(False)
+        while self.choice_lay.count():
+            it = self.choice_lay.takeAt(0)
+            w = it.widget()
+            if w:
+                w.hide()
+                w.setParent(None)
+                w.deleteLater()
+
+    def _send_raw(self, text):
+        if not self._proc:
+            return
+        try:
+            self._proc.write((text + "\r\n").encode("gbk", "replace"))
+        except Exception as e:
+            self._log("[发送失败] %s" % e)
+            return
+        self._log("→ " + (text if text else "(回车)"))
 
     def _done(self, code):
         self._log("■ 结束 (exit %d)" % code)
         self._proc = None
+        self._opts = []
+        self._carry_raw = b""
+        self._hide_choices()
         self.stop_btn.setEnabled(False)
         self.stdin.setEnabled(False)
         self._poll_device()
@@ -995,6 +1211,9 @@ class MainWindow(QWidget):
             self._proc = None
             self.stop_btn.setEnabled(False)
             self.stdin.setEnabled(False)
+            self._opts = []
+            self._carry_raw = b""
+            self._hide_choices()
             self._log("■ 已中止")
 
     def _send_stdin(self):
@@ -1002,8 +1221,7 @@ class MainWindow(QWidget):
             return
         text = self.stdin.text()
         self.stdin.clear()
-        self._proc.write((text + "\r\n").encode("gbk", "replace"))
-        self._log("→ " + text)
+        self._send_raw(text)
 
     def _log(self, s):
         self.log.appendPlainText(s)

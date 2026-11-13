@@ -5,5 +5,5 @@
 versionCode 只增不减,比较大小用它)。
 """
 
-APP_VERSION = "1.0.0"
-APP_VC = 1
+APP_VERSION = "1.1.0"
+APP_VC = 2
