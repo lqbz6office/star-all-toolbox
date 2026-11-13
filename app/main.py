@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """Star All Tool Box —— 液态玻璃外壳。
 
-底下的引擎(2.8G 的 bin/)一个字没改,还是原来那套 bat;
-这里只是把 menu.exe 那层命令行菜单换成图形界面:
+底下的引擎(2.8G 的 bin/)还是原来那套 bat,一行没改;
+只有 menu.exe / pause.exe 换成了界面版(menu_shim.py),让它们的选择项变成按钮:
 左边是主菜单,中间是当前菜单的条目,下面是执行日志。
 
 危险动作(Root / 刷机 / 抹机 / EDL)二次确认。
@@ -598,7 +598,7 @@ class MainWindow(QWidget):
 
     def _hint_label(self):
         # 版本别写死:换引擎后忘了改就一直在左下角显示旧版本(用户已经看到过一次)
-        l = QLabel("引擎:AllToolBox %s\nbin 未改动,仅替换菜单层" % resources.engine_version())
+        l = QLabel("引擎:AllToolBox %s\n引擎脚本原样,只有 menu/pause 换成界面版" % resources.engine_version())
         l.setStyleSheet("color:rgba(255,255,255,0.24); font-size:9px; padding-left:8px;")
         return l
 
